@@ -50,7 +50,6 @@ class User_services:
         return self.db.query(User_db).all()
     
 
-
     def delete_user(self, id: int):
         user = self.get_user_by_id(id)
         self.db.delete(user)
