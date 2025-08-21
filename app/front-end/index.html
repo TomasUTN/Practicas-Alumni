@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Club de Fútbol</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo">Club Atletico Alumni</div>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#noticias">Noticias</a></li>
+        <li><a href="#fixture">Fixture</a></li>
+        <li><a href="#socios">Socios</a></li>
+        <li><a href="#galeria">Galería</a></li>
+      </ul>
+      <button id="auth-btn" class="auth-btn">Registrarse / Iniciar Sesión</button>
+      <button class="menu-toggle" id="menu-toggle">☰</button>
+    </nav>
+  </header>
+
+  <section id="inicio" class="hero">
+    <h1>Bienvenidos al Club de Fútbol</h1>
+    <p>Pasión, historia y gloria en rojo y blanco.</p>
+    <button onclick="alert('¡Vamos el Club!')">¡Vamos!</button>
+  </section>
+
+  <section id="noticias" class="section">
+    <h2>Últimas Noticias</h2>
+    <div class="cards">
+      <div class="card"><img src="https://source.unsplash.com/400x250/?soccer,stadium" alt="foto noticia 1"><h3>Noticia 1</h3><p>Texto de la noticia 1...</p></div>
+      <div class="card"><img src="https://source.unsplash.com/400x250/?soccer,goal" alt="foto noticia 2"><h3>Noticia 2</h3><p>Texto de la noticia 2...</p></div>
+      <div class="card"><img src="https://source.unsplash.com/400x250/?soccer,team" alt="foto noticia 3"><h3>Noticia 3</h3><p>Texto de la noticia 3...</p></div>
+    </div>
+  </section>
+
+  <section id="fixture" class="section">
+    <h2>Próximos Partidos</h2>
+    <ul class="fixture-list">
+      <li>Fecha 1: Club vs Rival - 20/08</li>
+      <li>Fecha 2: Rival vs Club - 27/08</li>
+      <li>Fecha 3: Club vs Otro - 03/09</li>
+    </ul>
+  </section>
+
+  <section id="socios" class="section socios">
+    <h2>Hacete Socio</h2>
+    <p>Viví la pasión en primera fila. Unite al Club y disfrutá de beneficios exclusivos.</p>
+    <button id="asociate-btn">Asociate</button>
+
+    <div id="form-container" class="hidden">
+      <h3>Formulario de Asociación</h3>
+      <form id="asociate-form">
+        <input type="hidden" name="self" value="true">
+        <input type="text" name="id_user" placeholder="ID de Usuario" required>
+        <input type="file" name="photo" accept="image/*">
+        <input type="text" name="name" placeholder="Nombre" required>
+        <input type="text" name="surname" placeholder="Apellido" required>
+        <input type="text" name="DNI" placeholder="DNI" required>
+        <input type="date" name="date_of_birth" placeholder="Fecha de Nacimiento" required>
+        <input type="tel" name="phone" placeholder="Teléfono" required>
+        <input type="text" name="city" placeholder="Ciudad" required>
+        <input type="text" name="post_code" placeholder="Código Postal" required>
+        <input type="text" name="adress" placeholder="Dirección" required>
+        <input type="date" name="date_of_up" placeholder="Fecha de Alta" required>
+        
+        <select name="type_member" required>
+          <option value="">Tipo de Socio</option>
+          <option value="asd">de la bd</option>
+          <option value="asd1">de la bd</option>
+          <option value="asd2">de la bd</option>
+        </select>
+        
+        <input type="date" name="last_pay" placeholder="Último Pago" required>
+        <input type="number" name="debt" placeholder="Deuda ($)" min="0" step="0.01">
+        
+        <button type="submit" class="enviar-btn">Enviar</button>
+      </form>
+    </div>
+  </section>
+
+
+  <section id="galeria" class="section galeria">
+    <h2>Galería</h2>
+    <div class="gallery">
+      <img src="https://source.unsplash.com/400x250/?soccer,celebration" alt="galeria 1">
+      <img src="https://source.unsplash.com/400x250/?soccer,player" alt="galeria 2">
+      <img src="https://source.unsplash.com/400x250/?soccer,ball" alt="galeria 3">
+      <img src="https://source.unsplash.com/400x250/?soccer,fans" alt="galeria 4">
+    </div>
+  </section>
+
+  <div id="auth-modal" class="modal hidden">
+    <div class="modal-content">
+      <span id="close-modal" class="close">&times;</span>
+      <div class="tabs">
+        <button id="login-tab" class="tab active">Iniciar Sesión</button>
+        <button id="register-tab" class="tab">Registrarse</button>
+      </div>
+
+      <!-- Formulario Login -->
+      <form id="login-form" class="auth-form">
+        <input type="email" placeholder="Email" required>
+        <input type="password" placeholder="Contraseña" required>
+        <button type="submit" class="enviar-btn">Entrar</button>
+      </form>
+
+      <!-- Formulario Registro -->
+      <form id="register-form" class="auth-form hidden">
+        <input type="email" placeholder="Email" required>
+        <input type="password" placeholder="Contraseña" required>
+        <input type="password" placeholder="Repetir contraseña" required>
+        <button type="submit" class="enviar-btn">Registrarse</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Club de Fútbol - Todos los derechos reservados</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
