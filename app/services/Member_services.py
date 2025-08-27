@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException, UploadFile
 from sqlalchemy.orm import joinedload
 import os
+import uuid
 from datetime import datetime
 
 class Member_services:
@@ -31,11 +32,16 @@ class Member_services:
         except ValueError:
             raise HTTPException(status_code=400, detail="Formato de fecha inválido. Usa DD/MM/YYYY.")
 
+
+
         # Guardar archivo
         if isinstance(photo, UploadFile):
+    
             static_dir = os.path.join(os.getcwd(), "static", "photos")
-            os.makedirs(static_dir, exist_ok=True)
-            file_location = os.path.join(static_dir, photo.filename)
+            ext = os.path.splitext(photo.filename)[1] ## genera un nombre UNICO para cada archivo  
+            nombreFinal= f"{uuid.uuid4().hex}{ext}" 
+
+            file_location = os.path.join(static_dir, nombreFinal)
             try:
                 with open(file_location, "wb") as f:
                     content = await photo.read()
