@@ -1,3 +1,50 @@
+// Convierte fechas de YYYY-MM-DD a DD/MM/YYYY
+function formatDateToDDMMYYYY(dateStr) {
+  if (!dateStr) return "";
+  const [year, month, day] = dateStr.split("-");
+  return `${day}/${month}/${year}`;
+}
+const API_BASE_URL = "http://127.0.0.1:8000";  //aca ponele lo del archivo de configuracion la url que tenes ahi
+
+const asociateForm = document.getElementById('asociate-form'); //crea el formulario de envio
+
+fetch('http://127.0.0.1:8000/member_type/')
+  .then(response => response.json())
+  .then(data => {
+    const select = document.getElementById('member_type');
+    select.innerHTML = '';
+    data.forEach(tipo => {
+      const option = document.createElement('option');
+      option.value = tipo.id; // otorga el valor al seleccionar un campo
+      option.text = tipo.name; // muestra esto en la lista desplegable
+      select.appendChild(option);
+    });
+  });
+
+asociateForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+    const formData = new FormData(asociateForm);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/member/create`, {
+        method: "POST",
+        body: formData
+      });
+
+      if (!response.ok) throw new Error("Error en el registro");
+
+      const data = await response.json();
+      alert(`Registro ok:  ${data.name} ${data.surname}`);
+
+      asociateForm.reset();
+      formContainer.classList.add("hidden");
+    } catch (error) {
+      alert("No se pudo registrar: " + error.message);
+    }
+});
+
+
 const menuToggle = document.getElementById('menu-toggle');
 const navLinks = document.getElementById('nav-links');
 menuToggle.addEventListener('click', () => {
