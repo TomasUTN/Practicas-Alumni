@@ -4,6 +4,7 @@ function formatDateToDDMMYYYY(dateStr) {
   const [year, month, day] = dateStr.split("-");
   return `${day}/${month}/${year}`;
 }
+
 const API_BASE_URL = "http://127.0.0.1:8000";  //aca ponele lo del archivo de configuracion la url que tenes ahi
 
 const asociateForm = document.getElementById('asociate-form'); //crea el formulario de envio
@@ -24,7 +25,18 @@ fetch('http://127.0.0.1:8000/member_type/')
 asociateForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-    const formData = new FormData(asociateForm);
+
+
+  const formData = new FormData(asociateForm);
+
+  formData.set("date_of_birth", formatDateToDDMMYYYY(formData.get("date_of_birth")));
+  formData.set("date_of_up", formatDateToDDMMYYYY(formData.get("date_of_up")));
+  formData.set("last_pay", formatDateToDDMMYYYY(formData.get("last_pay")));
+
+    // estas lineas son para ver desde la consola en el navegador los datos que se envian
+  for(let [key,value] of formData.entries()){
+    console.log(`${key}: ${value}`)
+  }
 
     try {
       const response = await fetch(`${API_BASE_URL}/member/create`, {
