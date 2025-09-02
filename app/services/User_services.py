@@ -22,6 +22,8 @@ class User_services:
         existente = query.first()
         if existente:
             raise HTTPException(status_code=400, detail="Email ya registrado por otro usuario")
+        if new_user_data.password != new_user_data.repeat_password:
+            raise HTTPException(status_code=400, detail="Las contraseñas no coinciden")
         new_user = User_db(
             email= new_user_data.email.lower(),
             password=new_user_data.password,
@@ -41,7 +43,8 @@ class User_services:
         existente = query.first()
         if existente:
             raise HTTPException(status_code=400, detail="Email ya registrado por otro usuario")
-        
+        if new_user_data.password != new_user_data.repeat_password:
+            raise HTTPException(status_code=400, detail="Las contraseñas no coinciden")
         user.email = new_user_data.email
         user.password = new_user_data.password
         user.rol = new_user_data.rol
