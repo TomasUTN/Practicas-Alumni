@@ -153,3 +153,43 @@ registerTab.addEventListener('click', () => {
   loginTab.classList.remove('active');
 });
 
+// Barra de ADMINS
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Submenú Administración
+  const adminLink = document.querySelector(".has-submenu > a");
+  adminLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    const submenu = adminLink.nextElementSibling;
+    submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+  });
+
+  // Vista Admins
+  const adminBtn = document.querySelector('.nav-links li:last-child a'); // ADMINISTRADOR
+  const sidebar = document.querySelector(".sidebar");
+  const contenido = document.querySelector(".contenido");
+
+  // Mostrar/Ocultar Admin
+  adminBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    const visible = sidebar.style.display === "block";
+    sidebar.style.display = visible ? "none" : "block";
+    contenido.style.display = visible ? "none" : "block";
+  });
+
+  // Ocultar Admin al presionar cualquier otro link del navbar
+  const navLinks = document.querySelectorAll(".nav-links li a");
+
+  navLinks.forEach((link) => {
+    if (link !== adminBtn) { // ignoramos ADMINISTRADOR
+      link.addEventListener("click", () => {
+        sidebar.style.display = "none";
+        contenido.style.display = "none";
+      });
+    }
+  });
+});
+
+

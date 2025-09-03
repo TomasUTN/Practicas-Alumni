@@ -20,11 +20,34 @@
         <li><a href="#fixture">Fixture</a></li>
         <li><a href="#socios">Socios</a></li>
         <li><a href="#galeria">Galería</a></li>
+        <li><a href="#">ADMINISTRADOR</a></li>
       </ul>
       <button id="auth-btn" class="auth-btn">Registrarse / Iniciar Sesión</button>
       <button class="menu-toggle" id="menu-toggle">☰</button>
     </nav>
   </header>
+
+  <!-- VISTA PARA LOS ADMINISTRADORES -->
+  <aside class="sidebar">
+    <ul>
+      <li><a href="#">Inicio</a></li>
+      <li class="has-submenu">
+        <a href="#" onclick="toggleSubmenu(event)">Administración</a>
+        <ul class="submenu">
+          <li><a href="usuarios.html" target="contenido">Usuarios</a></li>
+          <li><a href="socios.html" target="contenido">Socios</a></li>
+          <li><a href="tiposocios.html" target="contenido">Tipo de Socios</a></li>
+        </ul>
+      </li>
+    </ul>
+  </aside>
+
+<main class="contenido">
+  <!-- Aquí se va a cargar el contenido -->
+  <iframe name="contenido"></iframe>
+</main>
+
+<!-- FIN VISTA ADMINISTRADORES-->
 
   <section id="inicio" class="hero">
     <h1>Bienvenidos al Club Atletico Alumni</h1>
@@ -52,7 +75,7 @@
 
   <section id="socios" class="section socios">
     <h2>Hacete Socio</h2>
-    <p>Viví la pasión en primera fila. Unite al Club y disfrutá de beneficios exclusivos.</p>
+    <p>Hace como el Joni. Viví la pasión fortinera. Unite al Club y disfrutá de beneficios exclusivos.</p>
     <button id="asociate-btn">Asociate</button>
 
     <div id="form-container" class="hidden">
@@ -87,13 +110,13 @@
   </section>
 
 
-  <section id="galeria" class="section galeria">
-    <h2>Galería</h2>
-    <div class="gallery">
-      <img src="https://source.unsplash.com/400x250/?soccer,celebration" alt="galeria 1">
-      <img src="https://source.unsplash.com/400x250/?soccer,player" alt="galeria 2">
-      <img src="https://source.unsplash.com/400x250/?soccer,ball" alt="galeria 3">
-      <img src="https://source.unsplash.com/400x250/?soccer,fans" alt="galeria 4">
+  <section id="gente" class="section galeria">
+    <h2>Tenemos aguante</h2>
+    <div class="nuestra_gente">
+      <img src="statics-front/gente_1.jpg" alt="hinchada">
+      <img src="statics-front/gente_2.jpg" alt="hinchada">
+      <img src="statics-front/gente_3.jpg" alt="hinchada">
+      <img src="statics-front/gente_4.jpg" alt="hinchada">
     </div>
   </section>
 
