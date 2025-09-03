@@ -10,8 +10,15 @@ header { background: #b30000; padding: 10px 20px; position: sticky; top: 0; z-in
 .nav-links a { color: #fff; text-decoration: none; transition: color 0.3s; }
 .nav-links a:hover { color: #ffcccc; }
 .menu-toggle { display: none; background: none; border: none; color: white; font-size: 1.5em; }
+.hero {
+  background: linear-gradient(rgba(179,0,0,0.6), rgba(179,0,0,0.6)),
+              url('statics-front/foto_sede.png') center/cover no-repeat;
+  background-position: center 70%; /* REMPLAZAR POR LA FOTO ACTUAL DE LA SEDE*/
+  color: white;
+  text-align: center;
+  padding: 100px 20px;
+}
 
-.hero { background: linear-gradient(rgba(179,0,0,0.6), rgba(179,0,0,0.6)), url('') center/cover no-repeat; color: white; text-align: center; padding: 100px 20px; }
 .hero h1 { font-size: 2.5em; margin-bottom: 10px; }
 .hero button { margin-top: 20px; padding: 10px 20px; border: none; background: white; color: #b30000; font-weight: bold; cursor: pointer; border-radius: 5px; }
 
@@ -143,11 +150,45 @@ header { background: #b30000; padding: 10px 20px; position: sticky; top: 0; z-in
   border-radius: 5px;
 }
 
+.footer {
+  background: #b30000;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  font-size: 14px;
+}
 
-footer { background: #b30000; color: white; text-align: center; padding: 20px; margin-top: 40px; }
+.footer-left {
+  flex: 1;
+}
+
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.logo-footer {
+  height: 30px;
+}
+
+.social-icons a {
+  color: white;
+  font-size: 18px;
+  margin-left: 10px;
+  transition: color 0.3s;
+}
+
+.social-icons a:hover {
+  color: white; 
+}
 
 @media (max-width: 768px) {
   .nav-links { display: none; flex-direction: column; background: #b30000; position: absolute; top: 60px; right: 0; width: 200px; }
   .nav-links.active { display: flex; }
   .menu-toggle { display: block; }
 }
+
+
