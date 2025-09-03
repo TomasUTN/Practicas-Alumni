@@ -16,7 +16,7 @@ def get_users(db: Session = Depends(get_db)):
 def get_user_by_id(id:int, db:Session = Depends(get_db)):
     return User_services(db).get_user_by_id(id)
 
-@router_user.post("/create", response_model=list[User_scheme])
+@router_user.post("/create", response_model=User_scheme)
 def create_users(new_user_data: User_edit_create, db: Session = Depends(get_db)):
     return User_services(db).create_user(new_user_data)
 

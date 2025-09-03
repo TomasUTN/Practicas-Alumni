@@ -32,7 +32,7 @@ class User_services:
         self.db.add(new_user)
         self.db.commit()
         self.db.refresh(new_user)
-        return self.db.query(User_db).all()
+        return new_user
     
     def edit_user(self,id:int ,new_user_data: User_edit_create):
         user = self.get_user_by_id(id)

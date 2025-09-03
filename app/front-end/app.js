@@ -63,29 +63,38 @@ asociateForm.addEventListener("submit", async (e) => {
 ///////// UNION PARA CREAR NUEVOS USUARIOS /////////////
 const register_form = document.getElementById('register-form'); //crea el formulario de envio
 
-fetch('http://127.0.0.1:8000/user/create')
-  .then(response => response.json())
+///fetch('http://127.0.0.1:8000/user/create')
+///  .then(response => response.json())
 
 register_form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const formData = new FormData(register_form);
-
+  const data = {
+    email: register_form.querySelector('input[type="email"]').value,
+    password: register_form.querySelector('input[type="password"]').value,
+    repeat_password: registerForm.querySelector('input[id="repeat_pass"]').value,
+    rol: "client" // valor fijo o dinámico
+  };
+  
     // estas lineas son para ver desde la consola en el navegador los datos que se envian
-  for(let [key,value] of formData.entries()){
-    console.log(`${key}: ${value}`)
+  for(let key in data){
+    console.log(`${key}: ${data[key]}`)
   }
 
     try {
       const response = await fetch(`${API_BASE_URL}/user/create`, {
         method: "POST",
-        body: formData
+        headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+
       });
 
       if (!response.ok) throw new Error("Error en el registro");
-
-      const data = await response.json();
-      alert(`Registro ok:  ${data.email} ${data.rol}`);
+      
+      const result = await response.json();
+      alert(`Registro ok:  usuario: ${result.email}  rol asignado: ${result.rol}`);
 
       register_form.reset();
       formContainer.classList.add("hidden");
