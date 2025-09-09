@@ -28,123 +28,125 @@
   </header>
 
   <!-- VISTA PARA LOS ADMINISTRADORES -->
-  <aside class="sidebar">
-    <ul>
-      <li><a href="#">Inicio</a></li>
-      <li class="has-submenu">
-        <a href="#" onclick="toggleSubmenu(event)">Administración</a>
-        <ul class="submenu">
-          <li><a href="usuarios.html" target="contenido">Usuarios</a></li>
-          <li><a href="socios.html" target="contenido">Socios</a></li>
-          <li><a href="tiposocios.html" target="contenido">Tipo de Socios</a></li>
-        </ul>
-      </li>
-    </ul>
-  </aside>
+  <div class="admin-container" id="adminView">
+    <aside class="sidebar">
+      <ul>
+        <li><a href="#">Inicio</a></li>
+        <li class="has-submenu">
+          <a href="#" onclick="toggleSubmenu(event)">Administración</a>
+          <ul class="submenu">
+            <li><a href="usuarios.html" target="contenido">Usuarios</a></li>
+            <li><a href="socios.html" target="contenido">Socios</a></li>
+            <li><a href="tiposocios.html" target="contenido">Tipo de Socios</a></li>
+          </ul>
+        </li>
+      </ul>
+    </aside>
 
-<main class="contenido">
-  <!-- Aquí se va a cargar el contenido -->
-  <iframe name="contenido"></iframe>
-</main>
-
-<!-- FIN VISTA ADMINISTRADORES-->
-
-  <section id="inicio" class="hero">
-    <h1>Bienvenidos al Club Atletico Alumni</h1>
-    <p>Somos la ciudad</p>
-    <button onclick="alert('¡Vamos el Club!')">¡Vamos!</button>
-  </section>
-
-  <section id="noticias" class="section">
-    <h2>Últimas Noticias</h2>
-    <div class="cards">
-      <div class="card"><img src="https://source.unsplash.com/400x250/?soccer,stadium" alt="foto noticia 1"><h3>Noticia 1</h3><p>Texto de la noticia 1...</p></div>
-      <div class="card"><img src="https://source.unsplash.com/400x250/?soccer,goal" alt="foto noticia 2"><h3>Noticia 2</h3><p>Texto de la noticia 2...</p></div>
-      <div class="card"><img src="https://source.unsplash.com/400x250/?soccer,team" alt="foto noticia 3"><h3>Noticia 3</h3><p>Texto de la noticia 3...</p></div>
-    </div>
-  </section>
-
-  <section id="fixture" class="section">
-    <h2>Próximos Partidos</h2>
-    <ul class="fixture-list">
-      <li>Fecha 1: Club vs Rival - 20/08</li>
-      <li>Fecha 2: Rival vs Club - 27/08</li>
-      <li>Fecha 3: Club vs Otro - 03/09</li>
-    </ul>
-  </section>
-
-  <section id="socios" class="section socios">
-    <h2>Hacete Socio</h2>
-    <p>Hace como el Joni. Viví la pasión fortinera. Unite al Club y disfrutá de beneficios exclusivos.</p>
-    <button id="asociate-btn">Asociate</button>
-
-    <div id="form-container" class="hidden">
-      <h3>Formulario de Asociación</h3>
-      <form id="asociate-form">
-        <input type="hidden" name="self" value="true">
-        <input type="text" name="id_user" placeholder="ID de Usuario" required>
-        <input type="file" name="photo" accept="image/*">
-        <input type="text" name="name" placeholder="Nombre" required>
-        <input type="text" name="surname" placeholder="Apellido" required>
-        <input type="text" name="DNI" placeholder="DNI" required>
-        <input type="date" name="date_of_birth" placeholder="Fecha de Nacimiento" required>
-        <input type="tel" name="phone" placeholder="Teléfono" required>
-        <input type="text" name="city" placeholder="Ciudad" required>
-        <input type="text" name="post_code" placeholder="Código Postal" required>
-        <input type="text" name="adress" placeholder="Dirección" required>
-        <input type="date" name="date_of_up" placeholder="Fecha de Alta" required>
-        
-        <select id="member_type" name="type_member" required>
-          <option value="">Tipo de Socio</option>
-          <option value="asd">de la bd</option>
-          <option value="asd1">de la bd</option>
-          <option value="asd2">de la bd</option>
-        </select>
-        
-        <input type="date" name="last_pay" placeholder="Último Pago" required>
-        <input type="number" name="debt" placeholder="Deuda ($)" min="0" step="0.01">
-        
-        <button type="submit" class="enviar-btn">Enviar</button>
-      </form>
-    </div>
-  </section>
-
-
-  <section id="gente" class="section galeria">
-    <h2>Tenemos aguante</h2>
-    <div class="nuestra_gente">
-      <img src="statics-front/gente_1.jpg" alt="hinchada">
-      <img src="statics-front/gente_2.jpg" alt="hinchada">
-      <img src="statics-front/gente_3.jpg" alt="hinchada">
-      <img src="statics-front/gente_4.jpg" alt="hinchada">
-    </div>
-  </section>
-
-  <div id="auth-modal" class="modal hidden">
-    <div class="modal-content">
-      <span id="close-modal" class="close">&times;</span>
-      <div class="tabs">
-        <button id="login-tab" class="tab active">Iniciar Sesión</button>
-        <button id="register-tab" class="tab">Registrarse</button>
-      </div>
-
-      <!-- Formulario Login -->
-      <form id="login-form" class="auth-form">
-        <input type="email" placeholder="Email" required>
-        <input type="password" placeholder="Contraseña" required>
-        <button type="submit" class="enviar-btn">Entrar</button>
-      </form>
-
-      <!-- Formulario Registro -->
-      <form id="register-form" class="auth-form hidden">
-        <input type="email" placeholder="Email" required>
-        <input type="password" placeholder="Contraseña" required>
-        <input type="password" id="repeat_pass" placeholder="Repetir contraseña" required>
-        <button type="submit" class="enviar-btn">Registrarse</button>
-      </form>
-    </div>
+    <main class="contenido">
+      <!-- Aquí se va a cargar el contenido -->
+      <iframe name="contenido"></iframe>
+    </main>
   </div>
 
+<!-- FIN VISTA ADMINISTRADORES-->
+  <div id="publicView">
+    <section id="inicio" class="hero">
+      <h1>Bienvenidos al Club Atletico Alumni</h1>
+      <p>Somos la ciudad</p>
+      <button onclick="alert('¡Vamos el Club!')">¡Vamos!</button>
+    </section>
+
+    <section id="noticias" class="section">
+      <h2>Últimas Noticias</h2>
+      <div class="cards">
+        <div class="card"><img src="https://source.unsplash.com/400x250/?soccer,stadium" alt="foto noticia 1"><h3>Noticia 1</h3><p>Texto de la noticia 1...</p></div>
+        <div class="card"><img src="https://source.unsplash.com/400x250/?soccer,goal" alt="foto noticia 2"><h3>Noticia 2</h3><p>Texto de la noticia 2...</p></div>
+        <div class="card"><img src="https://source.unsplash.com/400x250/?soccer,team" alt="foto noticia 3"><h3>Noticia 3</h3><p>Texto de la noticia 3...</p></div>
+      </div>
+    </section>
+
+    <section id="fixture" class="section">
+      <h2>Próximos Partidos</h2>
+      <ul class="fixture-list">
+        <li>Fecha 1: Club vs Rival - 20/08</li>
+        <li>Fecha 2: Rival vs Club - 27/08</li>
+        <li>Fecha 3: Club vs Otro - 03/09</li>
+      </ul>
+    </section>
+
+    <section id="socios" class="section socios">
+      <h2>Hacete Socio</h2>
+      <p>Hace como el Joni. Viví la pasión fortinera. Unite al Club y disfrutá de beneficios exclusivos.</p>
+      <button id="asociate-btn">Asociate</button>
+
+      <div id="form-container" class="hidden">
+        <h3>Formulario de Asociación</h3>
+        <form id="asociate-form">
+          <input type="hidden" name="self" value="true">
+          <input type="text" name="id_user" placeholder="ID de Usuario" required>
+          <input type="file" name="photo" accept="image/*">
+          <input type="text" name="name" placeholder="Nombre" required>
+          <input type="text" name="surname" placeholder="Apellido" required>
+          <input type="text" name="DNI" placeholder="DNI" required>
+          <input type="date" name="date_of_birth" placeholder="Fecha de Nacimiento" required>
+          <input type="tel" name="phone" placeholder="Teléfono" required>
+          <input type="text" name="city" placeholder="Ciudad" required>
+          <input type="text" name="post_code" placeholder="Código Postal" required>
+          <input type="text" name="adress" placeholder="Dirección" required>
+          <input type="date" name="date_of_up" placeholder="Fecha de Alta" required>
+          
+          <select id="member_type" name="type_member" required>
+            <option value="">Tipo de Socio</option>
+            <option value="asd">de la bd</option>
+            <option value="asd1">de la bd</option>
+            <option value="asd2">de la bd</option>
+          </select>
+          
+          <input type="date" name="last_pay" placeholder="Último Pago" required>
+          <input type="number" name="debt" placeholder="Deuda ($)" min="0" step="0.01">
+          
+          <button type="submit" class="enviar-btn">Enviar</button>
+        </form>
+      </div>
+    </section>
+
+
+    <section id="gente" class="section galeria">
+      <h2>Tenemos aguante</h2>
+      <div class="nuestra_gente">
+        <img src="statics-front/gente_1.jpg" alt="hinchada">
+        <img src="statics-front/gente_2.jpg" alt="hinchada">
+        <img src="statics-front/gente_3.jpg" alt="hinchada">
+        <img src="statics-front/gente_4.jpg" alt="hinchada">
+      </div>
+    </section>
+
+    <div id="auth-modal" class="modal hidden">
+      <div class="modal-content">
+        <span id="close-modal" class="close">&times;</span>
+        <div class="tabs">
+          <button id="login-tab" class="tab active">Iniciar Sesión</button>
+          <button id="register-tab" class="tab">Registrarse</button>
+        </div>
+
+        <!-- Formulario Login -->
+        <form id="login-form" class="auth-form">
+          <input type="email" placeholder="Email" required>
+          <input type="password" placeholder="Contraseña" required>
+          <button type="submit" class="enviar-btn">Entrar</button>
+        </form>
+
+        <!-- Formulario Registro -->
+        <form id="register-form" class="auth-form hidden">
+          <input type="email" placeholder="Email" required>
+          <input type="password" placeholder="Contraseña" required>
+          <input type="password" id="repeat_pass" placeholder="Repetir contraseña" required>
+          <button type="submit" class="enviar-btn">Registrarse</button>
+        </form>
+      </div>
+    </div>
+  </div>
   <footer class="footer">
     <div class="footer-left">
       <p>© 2025 Club Atlético Alumni. Todos los derechos reservados.</p>

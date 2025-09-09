@@ -154,8 +154,6 @@ registerTab.addEventListener('click', () => {
 });
 
 // Barra de ADMINS
-
-
 document.addEventListener("DOMContentLoaded", () => {
   // Submenú Administración
   const adminLink = document.querySelector(".has-submenu > a");
@@ -167,29 +165,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Vista Admins
   const adminBtn = document.querySelector('.nav-links li:last-child a'); // ADMINISTRADOR
-  const sidebar = document.querySelector(".sidebar");
-  const contenido = document.querySelector(".contenido");
+  const adminContainer = document.querySelector(".admin-container");
+  const publicView = document.getElementById("publicView");
 
-  // Mostrar/Ocultar Admin
+  // Mostrar solo Admin
   adminBtn.addEventListener("click", (event) => {
     event.preventDefault();
 
-    const visible = sidebar.style.display === "block";
-    sidebar.style.display = visible ? "none" : "block";
-    contenido.style.display = visible ? "none" : "block";
+    // Ocultamos la vista pública
+    publicView.style.display = "none";
+
+    // Mostramos admin
+    adminContainer.style.display = "flex";
+    adminContainer.classList.add("flex");
+
+    // Fondo especial (opcional)
+    document.body.style.backgroundImage = "url('statics-front/fondo_admin.jpg')";
+    document.body.style.backgroundRepeat = "no-repeat";
+    document.body.style.backgroundSize = "cover";
+    document.body.style.backgroundPosition = "center";
   });
 
-  // Ocultar Admin al presionar cualquier otro link del navbar
+  // Volver a vista pública al presionar cualquier otro link del navbar
   const navLinks = document.querySelectorAll(".nav-links li a");
-
   navLinks.forEach((link) => {
     if (link !== adminBtn) { // ignoramos ADMINISTRADOR
       link.addEventListener("click", () => {
-        sidebar.style.display = "none";
-        contenido.style.display = "none";
+        // Ocultar admin
+        adminContainer.style.display = "none";
+        adminContainer.classList.remove("flex");
+
+        // Mostrar vista pública
+        publicView.style.display = "block";
+
+        // Quitar fondo admin
+        document.body.style.backgroundImage = "";
       });
     }
   });
 });
-
-

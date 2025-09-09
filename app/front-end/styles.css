@@ -86,9 +86,26 @@ header { background: #b30000; padding: 10px 20px; position: sticky; top: 0; z-in
 /* VISTA ADMINS*/
 
 /* Vista admins oculta al inicio */
+
 .sidebar, 
 .contenido {
   display: none;
+}
+
+.admin-container {
+  display: none; /* por defecto oculto */
+  min-height: 100vh;
+  flex-direction: row;
+}
+
+.admin-container.flex .sidebar,
+.admin-container.flex .contenido {
+  display: block;
+}
+/* contenido a la derecha del sidebar */
+.contenido {
+  flex: 1;
+  min-height: 100vh;
 }
 
 .sidebar {
