@@ -178,13 +178,43 @@ document.addEventListener("DOMContentLoaded", () => {
     // Mostramos admin
     adminContainer.style.display = "flex";
     adminContainer.classList.add("flex");
+    // Quitar cualquier contenido previo
+    const contenido = document.querySelector(".contenido");
+    contenido.style.display = "none";
+    document.querySelectorAll(".seccion-admin").forEach(sec => sec.style.display = "none");
 
+    // Volvemos a mostrar solo el fondo de bienvenida
+    const fondoAdmin = document.getElementById("fondo-admin");
+    if (fondoAdmin) fondoAdmin.style.display = "flex";
+    
     // Fondo especial (opcional)
     document.body.style.backgroundImage = "url('statics-front/fondo_admin.jpg')";
     document.body.style.backgroundRepeat = "no-repeat";
     document.body.style.backgroundSize = "cover";
     document.body.style.backgroundPosition = "center";
+    
   });
+ const sidebarInicio = document.getElementById("sidebarInicio");
+  if (sidebarInicio) {
+    sidebarInicio.addEventListener("click", (event) => {
+      event.preventDefault();
+
+      // Resetear contenido
+      const contenido = document.querySelector(".contenido");
+      contenido.style.display = "none";
+      document.querySelectorAll(".seccion-admin").forEach(sec => sec.style.display = "none");
+
+      // Mostrar fondo
+      const fondoAdmin = document.getElementById("fondo-admin");
+      if (fondoAdmin) fondoAdmin.style.display = "flex";
+
+      // Mantener fondo admin
+      document.body.style.backgroundImage = "url('statics-front/fondo_admin.jpg')";
+      document.body.style.backgroundRepeat = "no-repeat";
+      document.body.style.backgroundSize = "cover";
+      document.body.style.backgroundPosition = "center";
+    });
+  }
 
   // Volver a vista pública al presionar cualquier otro link del navbar
   const navLinks = document.querySelectorAll(".nav-links li a");
@@ -204,3 +234,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+// Inicializar DataTable
+$(document).ready(function() {
+  $('#tablaUsuarios').DataTable({
+    language: {
+      url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
+    }
+  });
+});
+
+// Función para mostrar/ocultar secciones
+function mostrarSeccion(id) {
+  const contenido = document.querySelector(".contenido");
+  
+  // mostrar contenedor de contenido
+  contenido.style.display = "block";
+
+  // ocultar todas las secciones
+  document.querySelectorAll(".seccion-admin").forEach(sec => sec.style.display = "none");
+  
+  // mostrar solo la seleccionada
+  document.getElementById(id).style.display = "block";
+}

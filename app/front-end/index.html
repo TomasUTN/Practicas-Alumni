@@ -31,21 +31,56 @@
   <div class="admin-container" id="adminView">
     <aside class="sidebar">
       <ul>
-        <li><a href="#">Inicio</a></li>
+        <li><a href="#" id="sidebarInicio">Inicio</a></li>
         <li class="has-submenu">
-          <a href="#" onclick="toggleSubmenu(event)">Administración</a>
+          <a href="#" >Administración</a>
           <ul class="submenu">
-            <li><a href="usuarios.html" target="contenido">Usuarios</a></li>
-            <li><a href="socios.html" target="contenido">Socios</a></li>
-            <li><a href="tiposocios.html" target="contenido">Tipo de Socios</a></li>
+            <li><a href="#" onclick="mostrarSeccion('usuarios')">Usuarios</a></li>
+            <li><a href="#" onclick="mostrarSeccion('socios')">Socios</a></li>
+            <li><a href="#" onclick="mostrarSeccion('tipoSocios')">Tipo de Socios</a></li>
           </ul>
         </li>
       </ul>
     </aside>
 
     <main class="contenido">
-      <!-- Aquí se va a cargar el contenido -->
-      <iframe name="contenido"></iframe>
+       <!-- Sección Usuarios -->
+      <section id="usuarios" class="seccion-admin" style="display:none;">
+        <h2>Usuarios</h2>
+        <button class="btn-agregar">Agregar Usuario</button>
+        <table id="tablaUsuarios" class="display">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Password</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>usuario1@mail.com</td>
+              <td>******</td>
+              <td class="acciones">
+                <button class="editar">✏️</button>
+                <button class="eliminar">🗑️</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Otras secciones (inicialmente ocultas) -->
+      <section id="socios" class="seccion-admin" style="display:none;">
+        <h2>Socios</h2>
+        <!-- acá va tabla socios -->
+      </section>
+
+      <section id="tipoSocios" class="seccion-admin" style="display:none;">
+        <h2>Tipo de Socios</h2>
+        <!-- acá va tabla tipo de socios -->
+      </section>
     </main>
   </div>
 
@@ -162,6 +197,13 @@
     </div>
   </footer>
 
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
   <script src="app.js"></script>
+  <!-- Estilos DataTables -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+
 </body>
 </html>

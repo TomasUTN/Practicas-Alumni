@@ -87,6 +87,7 @@ header { background: #b30000; padding: 10px 20px; position: sticky; top: 0; z-in
 
 /* Vista admins oculta al inicio */
 
+
 .sidebar, 
 .contenido {
   display: none;
@@ -98,10 +99,14 @@ header { background: #b30000; padding: 10px 20px; position: sticky; top: 0; z-in
   flex-direction: row;
 }
 
-.admin-container.flex .sidebar,
-.admin-container.flex .contenido {
+.admin-container.flex .sidebar {
   display: block;
 }
+
+.admin-container.flex .contenido {
+  display: none; /* 👈 arranca oculto aunque esté en modo admin */
+}
+
 /* contenido a la derecha del sidebar */
 .contenido {
   flex: 1;
@@ -247,6 +252,63 @@ iframe {
 .social-icons a:hover {
   color: white; 
 }
+
+/* DESPLIEGUE TABLA DE USUARIOS*/
+.btn-agregar {
+  background-color: #ffc107;
+  border: none;
+  padding: 8px 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.acciones button {
+  border: none;
+  cursor: pointer;
+  margin: 0 3px;
+  padding: 5px 8px;
+  border-radius: 5px;
+}
+
+.acciones .editar {
+  background: #ffc107;
+}
+
+.acciones .eliminar {
+  background: #dc3545;
+  color: white;
+}
+
+/* Para que las secciones se vean bien */
+.seccion-admin {
+  margin-top: 20px;
+}
+
+/* Contenido de la vista admin */
+.contenido {
+  display: none;
+  flex: 1;                  /* ocupa todo el espacio disponible */
+  padding: 20px;
+  background-color: white; /* 👈 fondo blanco semitransparente para leer la tabla */
+  border-radius: 12px;
+  margin: 20px;
+}
+
+/* Tabla admin */
+#tablaUsuarios {
+  width: 100%;   /* 👈 ocupa todo el ancho */
+  border-collapse: collapse;
+  background: white;
+}
+
+#tablaUsuarios th, 
+#tablaUsuarios td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
 
 @media (max-width: 768px) {
   .nav-links { display: none; flex-direction: column; background: #b30000; position: absolute; top: 60px; right: 0; width: 200px; }
