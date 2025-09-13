@@ -235,7 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Inicializar DataTable
+// Inicializar DataTable de usuarios
 $(document).ready(function() {
   $('#tablaUsuarios').DataTable({
     language: {
@@ -243,6 +243,34 @@ $(document).ready(function() {
     }
   });
 });
+
+// Relleno de la tabla con los datos de la db NO FUNCIONA MOMENTANEAMTE
+fetch('http://127.0.0.1:8000/member/')
+  .then(response => response.json())
+  .then(data => {
+    const tabla = $('#tablaUsuarios').DataTable();
+    tabla.clear();
+
+  // recorrer los usuarios
+    data.forEach(user => {
+    tabla.row.add([
+    user.id,
+    user.email,
+    
+    "*****", // oculto el password
+    `
+    <button class="btn btn-warning btn-sm">✏️</button>
+    <button class="btn btn-danger btn-sm">🗑️</button>
+    `
+        ]);
+      });
+
+      // refrescar DataTable
+      tabla.draw();
+    })
+    .catch(error => console.error("Error cargando usuarios:", error));
+
+
 
 // Función para mostrar/ocultar secciones
 function mostrarSeccion(id) {
