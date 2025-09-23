@@ -321,7 +321,7 @@ fetch('http://127.0.0.1:8000/member/')
       tabla.row.add({
         id: member.id,
         id_user: member.id_user,
-        photo: "ruta generica",
+        photo: "/static/photos/generico",
         name: member.name,
         surname: member.surname,
         DNI: member.DNI,
