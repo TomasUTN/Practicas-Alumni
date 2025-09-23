@@ -235,17 +235,25 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+///////////////////////////////////////////////// USUARIOS ///////////////////////////////////////////////////////////////////
 // Inicializar DataTable de usuarios
 $(document).ready(function() {
   $('#tablaUsuarios').DataTable({
     language: {
-      url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
-    }
+      url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
+    },
+      columns: [
+      { data: "id", title: "ID" ,defaultContent: ""},
+      { data: "email", title: "Email", defaultContent: "" },
+      { data: "password", title: "Contraseña", defaultContent: "" },
+      { data: "rol", title: "Rol", defaultContent: "" },
+      { data: "acciones", title: "Acciones" , defaultContent: ""}
+    ]
   });
 });
 
-// Relleno de la tabla con los datos de la db NO FUNCIONA MOMENTANEAMTE
-fetch('http://127.0.0.1:8000/member/')
+// Relleno de la tabla 
+fetch('http://127.0.0.1:8000/user/')
   .then(response => response.json())
   .then(data => {
     const tabla = $('#tablaUsuarios').DataTable();
@@ -253,24 +261,134 @@ fetch('http://127.0.0.1:8000/member/')
 
   // recorrer los usuarios
     data.forEach(user => {
-    tabla.row.add([
-    user.id,
-    user.email,
-    
-    "*****", // oculto el password
-    `
-    <button class="btn btn-warning btn-sm">✏️</button>
-    <button class="btn btn-danger btn-sm">🗑️</button>
-    `
-        ]);
+      // console.log(user);
+      tabla.row.add({
+        id: user.id,
+        email: user.email,
+        password: user.password,
+        rol: user.rol,
+        acciones: `
+          <button class="btn btn-warning btn-sm">✏️</button>
+          <button class="btn btn-danger btn-sm">🗑️</button>
+        `
       });
+    });
 
       // refrescar DataTable
       tabla.draw();
     })
     .catch(error => console.error("Error cargando usuarios:", error));
 
+///////////////////////////////////////////////// SOCIOS ///////////////////////////////////////////////////////////////////
+// Inicializar DataTable de Socios
 
+$(document).ready(function() {
+  $('#tablaSocios').DataTable({
+    language: {
+      url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
+    },
+      columns: [
+      { data: "id", title: "Nro Socio" ,defaultContent: ""},
+      { data: "id_user", title: "ID user", defaultContent: "" },
+      { data: "photo", title: "Foto", defaultContent: "" },
+      { data: "name", title: "Nombre", defaultContent: "" },
+      { data: "surname", title: "Apellido" , defaultContent: ""},
+      { data: "DNI", title: "DNI" ,defaultContent: ""},
+      { data: "date_of_birth", title: "Fecha Nac", defaultContent: "" },
+      { data: "phone", title: "Telefono", defaultContent: "" },
+      { data: "city", title: "Ciudad", defaultContent: "" },
+      { data: "post_code", title: "Codigo postal" , defaultContent: ""},
+      { data: "adress", title: "Direccion" ,defaultContent: ""},
+      { data: "date_of_up", title: "Fecha de alta", defaultContent: "" },
+      { data: "type_member", title: "Tipo de miembro", defaultContent: "" },
+      { data: "last_pay", title: "Ultimo pago", defaultContent: "" },
+      { data: "debt", title: "Deuda" , defaultContent: ""},
+      { data: "acciones", title: "Acciones" , defaultContent: ""}
+    ]
+  });
+});
+
+// Relleno de la tabla 
+fetch('http://127.0.0.1:8000/member/')
+  .then(response => response.json())
+  .then(data => {
+    const tabla = $('#tablaSocios').DataTable();
+    tabla.clear();
+
+  // recorrer los socios
+    data.forEach(member => {
+      //console.log(member);
+      tabla.row.add({
+        id: member.id,
+        id_user: member.id_user,
+        photo: "ruta generica",
+        name: member.name,
+        surname: member.surname,
+        DNI: member.DNI,
+        date_of_birth: member.date_of_birth,
+        phone: member.phone,
+        city: member.city,
+        post_code: member.post_code,
+        adress: member.adress,
+        date_of_up: member.date_of_up,
+        type_member: member.type_member, // ver de modificar para que en lugar del id aparezca el nombre de ese tipo
+        last_pay: member.last_pay,
+        debt: member.debt,
+        acciones: `
+          <button class="btn btn-warning btn-sm">✏️</button>
+          <button class="btn btn-danger btn-sm">🗑️</button>
+        `
+      });
+    });
+
+      // refrescar DataTable
+      tabla.draw();
+    })
+    .catch(error => console.error("Error cargando los socios:", error));
+
+///////////////////////////////////////////////// TIPO DE SOCIOS ///////////////////////////////////////////////////////////////////
+// Inicializar DataTable de Tipo de Socios
+$(document).ready(function() {
+  $('#tablaTipoSocios').DataTable({
+    language: {
+      url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
+    },
+      columns: [
+      { data: "id", title: "ID" ,defaultContent: ""},
+      { data: "name", title: "Nombre", defaultContent: "" },
+      { data: "description", title: "Descripcion", defaultContent: "" },
+      { data: "price", title: "Precio", defaultContent: "" },
+      { data: "acciones", title: "Acciones" , defaultContent: ""}
+    ]
+  });
+});
+
+// Relleno de la tabla 
+fetch('http://127.0.0.1:8000/member_type/')
+  .then(response => response.json())
+  .then(data => {
+    const tabla = $('#tablaTipoSocios').DataTable();
+    tabla.clear();
+
+  // recorrer los usuarios
+    data.forEach(type => {
+      console.log(type);
+      tabla.row.add({
+        id: type.id,
+        name: type.name,
+        decription: type.description,
+        price: type.price,
+        acciones: `
+          <button class="btn btn-warning btn-sm">✏️</button>
+          <button class="btn btn-danger btn-sm">🗑️</button>
+        `
+      });
+    });
+
+      // refrescar DataTable
+      tabla.draw();
+    })
+    .catch(error => console.error("Error cargando los tipos de socios:", error));
 
 // Función para mostrar/ocultar secciones
 function mostrarSeccion(id) {

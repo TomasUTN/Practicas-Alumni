@@ -7,7 +7,7 @@ from services.User_services import User_services
 router_user = APIRouter(prefix="/user", tags=["Users"]) # en esta linea hago que todas las rutas comiencen con /usuarios
 
 
-@router_user.get("/", response_model=list[User_scheme])
+@router_user.get("/")
 def get_users(db: Session = Depends(get_db)):
     return User_services(db).get_all_user()
 
