@@ -7,6 +7,7 @@
   <link rel="icon" type="image/x-icon" href="statics-front/icon.ico">
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 
 
 </head>
@@ -47,7 +48,7 @@
        <!-- Sección Usuarios -->
       <section id="usuarios" class="seccion-admin" style="display:none;">
         <h2>Usuarios</h2>
-        <button class="btn-agregar">Agregar Usuario</button>
+        <button class="btn-agregar-user">Agregar Usuario</button>
         <table id="tablaUsuarios" class="display">
           <thead>
             <tr>
@@ -66,7 +67,7 @@
       <!-- Seccion Socios -->
       <section id="socios" class="seccion-admin" style="display:none;">
         <h2>Socios</h2>
-        <button class="btn-agregar">Agregar Socio</button>
+        <button class="btn-agregar-member">Agregar Socio</button>
         <table id="tablaSocios" class="display">
           <thead>
             <tr>
@@ -85,6 +86,7 @@
               <th>Tipo de Miembro</th>
               <th>Ultimo Pago</th>
               <th>Deuda</th>
+              <th>Accion</th>
             </tr>
           </thead>
           <tbody>
@@ -93,9 +95,20 @@
       </section>
       
       <!-- Seccion de Tipo de socios -->
+       
+      <!-- Formulario agregar tipo de socio -->
+      <div id="modal_overlay_agregar_tipo" class="modal-overlay-agregar-tipo" style="display:none;">
+        <form id="new_type_form" class="modal-form-agregar-tipo">
+          <span class="close-modal">&times;</span>
+          <input type="text" placeholder="Nombre del nuevo tipo" required>
+          <input type="text" placeholder="Descripcion de este tipo de socio" required>
+          <input type="number" placeholder="Precio de este tipo de miembro" required>
+          <button type="submit" class="enviar-btn">Guardar</button>
+        </form>
+      </div>
       <section id="tipoSocios" class="seccion-admin" style="display:none;">
         <h2>Tipo de Socios</h2>
-        <button class="btn-agregar">Agregar Tipo de Socio</button>
+        <button class="btn-agregar-member-type">Agregar Tipo de Socio</button>
         <table id="tablaTipoSocios" class="display">
           <thead>
             <tr>
@@ -231,7 +244,6 @@
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
   <script src="app.js"></script>
   <!-- Estilos DataTables -->
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 
 </body>
 </html>

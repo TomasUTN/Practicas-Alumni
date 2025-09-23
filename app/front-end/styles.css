@@ -253,8 +253,10 @@ iframe {
   color: white; 
 }
 
+
+
 /* DESPLIEGUE TABLA DE USUARIOS*/
-.btn-agregar {
+.btn-agregar-member-type, .btn-agregar-member, .btn-agregar-user {
   background-color: #ffc107;
   border: none;
   padding: 8px 15px;
@@ -309,6 +311,45 @@ iframe {
   border-bottom: 1px solid #ddd;
 }
 
+
+/* DESPLIEGUE TABLA DE NUEVO MIEMBRO*/
+#new_type_form{
+  margin-top: 20px;
+  background: #f9f9f9;
+  padding: 20px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.close-modal:hover {
+  color: #b30000;
+}
+
+/* Ajuste porque ahora el form tiene posición relativa */
+.modal-form-agregar-tipo {
+  position: relative;
+  background: #fff;
+  padding: 30px;
+  width: 600px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
 
 @media (max-width: 768px) {
   .nav-links { display: none; flex-direction: column; background: #b30000; position: absolute; top: 60px; right: 0; width: 200px; }

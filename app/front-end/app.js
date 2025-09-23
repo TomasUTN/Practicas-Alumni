@@ -72,7 +72,7 @@ register_form.addEventListener("submit", async (e) => {
   const data = {
     email: register_form.querySelector('input[type="email"]').value,
     password: register_form.querySelector('input[type="password"]').value,
-    repeat_password: registerForm.querySelector('input[id="repeat_pass"]').value,
+    repeat_password: register_form.querySelector('input[id="repeat_pass"]').value,
     rol: "client" // valor fijo o dinámico
   };
   
@@ -376,7 +376,7 @@ fetch('http://127.0.0.1:8000/member_type/')
       tabla.row.add({
         id: type.id,
         name: type.name,
-        decription: type.description,
+        description: type.description,
         price: type.price,
         acciones: `
           <button class="btn btn-warning btn-sm">✏️</button>
@@ -389,6 +389,30 @@ fetch('http://127.0.0.1:8000/member_type/')
       tabla.draw();
     })
     .catch(error => console.error("Error cargando los tipos de socios:", error));
+
+  // agregar nuevos tipos de miembros desde la vista de admin
+const agregar_type_member = document.querySelector(".btn-agregar-member-type");
+const modal_overlay = document.querySelector("#modal_overlay_agregar_tipo");
+const close_modal = document.querySelector(".close-modal");
+
+  // Mostrar modal
+agregar_type_member.addEventListener('click', () => {
+  modal_overlay.style.display = "flex";
+  });
+
+  // Cerrar modal si clickeás afuera
+modal_overlay.addEventListener('click', (e) => {
+  if (e.target === modal_overlay) {
+    modal_overlay.style.display = "none";
+  }
+  });
+
+  // Cerrar modal con la X
+close_modal.addEventListener('click', () => {
+  modal_overlay.style.display = "none";
+  });
+
+/////////////////////////////////////////// FIN DE FUNCIONES PARA ADMINS ////////////////////////////////////////
 
 // Función para mostrar/ocultar secciones
 function mostrarSeccion(id) {
