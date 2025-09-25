@@ -412,6 +412,63 @@ close_modal.addEventListener('click', () => {
   modal_overlay.style.display = "none";
   });
 
+  // se agrega la funcionalidad a este formulario 
+
+const new_type_form = document.getElementById('new_type_form'); //crea el formulario de envio
+
+new_type_form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const data = {
+  name: new_type_form.querySelector('.name').value,
+  description: new_type_form.querySelector('.description').value,
+  price: new_type_form.querySelector('.price').value,
+  };
+  
+    // estas lineas son para ver desde la consola en el navegador los datos que se envian
+  for(let key in data){
+    console.log(`${key}: ${data[key]}`)
+  }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/member_type/create`, {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+
+      });
+
+      if (!response.ok) throw new Error("Error en el registro");
+      
+      const result = await response.json();
+      alert(`Se añadio correctamente el nuevo tipo de miembr:  Tipo: ${result.name}  precio: ${result.price}`);
+      
+          // Agregar la nueva fila al DataTable directamente
+      const tabla = $('#tablaTipoSocios').DataTable();
+      tabla.row.add({
+        id: result.id,
+        name: result.name,
+        description: result.description,
+        price: result.price,
+        acciones: `
+          <button class="btn btn-warning btn-sm">✏️</button>
+          <button class="btn btn-danger btn-sm">🗑️</button>
+        `
+      }).draw();
+
+    new_type_form.reset();
+    modal_overlay.style.display = "none";
+
+      register_form.reset();
+      formContainer.classList.add("hidden");
+    } catch (error) {
+      alert("No se pudo registrar: " + error.message);
+    }
+    
+
+});
 /////////////////////////////////////////// FIN DE FUNCIONES PARA ADMINS ////////////////////////////////////////
 
 // Función para mostrar/ocultar secciones
