@@ -96,16 +96,22 @@
       
       <!-- Seccion de Tipo de socios -->
        
-      <!-- Formulario agregar tipo de socio -->
-      <div id="modal_overlay_agregar_tipo" class="modal-overlay-agregar-tipo" style="display:none;">
-        <form id="new_type_form" class="modal-form-agregar-tipo">
-          <span class="close-modal">&times;</span><br>
-          <input type="text" class="name" placeholder="Nombre del nuevo tipo" required>
-          <input type="text" class="description" placeholder="Descripcion de este tipo de socio" required>
-          <input type="number" class="price" placeholder="Precio de este tipo de miembro" required>
-          <button type="submit" class="enviar-btn">Guardar</button>
+      <!-- Formulario agregar/editar tipo de socio -->
+      <div id="form_tipo_container" class="form-tipo-container" style="display:none;">
+        <form id="type_form" class="form-tipo">
+          <span class="close-form">&times;</span><br>
+          
+          <!-- Campo oculto para edición -->
+          <input type="hidden" class="id">
+
+          <input type="text" class="name" placeholder="Nombre del tipo" required>
+          <input type="text" class="description" placeholder="Descripción" required>
+          <input type="number" class="price" placeholder="Precio" required>
+
+          <button type="submit" class="btn-guardar">Guardar</button>
         </form>
       </div>
+
       <section id="tipoSocios" class="seccion-admin" style="display:none;">
         <h2>Tipo de Socios</h2>
         <button class="btn-agregar-member-type">Agregar Tipo de Socio</button>

@@ -388,89 +388,89 @@ fetch('http://127.0.0.1:8000/member_type/')
     })
     .catch(error => console.error("Error cargando los tipos de socios:", error));
 
-  // agregar nuevos tipos de miembros desde la vista de admin
-const agregar_type_member = document.querySelector(".btn-agregar-member-type");
-const modal_overlay = document.querySelector("#modal_overlay_agregar_tipo");
-const close_modal = document.querySelector(".close-modal");
+  // agregar nuevos o editar tipos de miembros desde la vista de admin
+const form_container = document.getElementById("form_tipo_container");
+const type_form = document.getElementById("type_form");
+const closeForm = document.querySelector(".close-form");
 
-  // Mostrar modal
-agregar_type_member.addEventListener('click', () => {
-  modal_overlay.style.display = "flex";
-  });
+// Abrir en modo CREAR
+document.querySelector(".btn-agregar-member-type").addEventListener("click", () => {
+  type_form.reset();
+  type_form.querySelector(".id").value = "";
+  form_container.style.display = "block";
+});
 
-  // Cerrar modal si clickeás afuera
-modal_overlay.addEventListener('click', (e) => {
-  if (e.target === modal_overlay) {
-    modal_overlay.style.display = "none";
-  }
-  });
+// Abrir en modo EDITAR
+$('#tablaTipoSocios tbody').on('click', '.btn-editar', function () {
+  const fila = tabla.row($(this).parents('tr')).data();
 
-  // Cerrar modal con la X
-close_modal.addEventListener('click', () => {
-  modal_overlay.style.display = "none";
-  });
+  type_form.querySelector(".id").value = fila.id;
+  type_form.querySelector(".name").value = fila.name;
+  type_form.querySelector(".description").value = fila.description;
+  type_form.querySelector(".price").value = fila.price;
 
-  // se agrega la funcionalidad a este formulario 
+  form_container.style.display = "block";
+});
 
-const new_type_form = document.getElementById('new_type_form'); //crea el formulario de envio
+// Cerrar formulario
+closeForm.addEventListener("click", () => {
+  form_container.style.display = "none";
+});
 
-new_type_form.addEventListener("submit", async (e) => {
+// Submit del formulario (CREAR o EDITAR según corresponda)
+type_form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  const id = type_form.querySelector(".id").value;
   const data = {
-  name: new_type_form.querySelector('.name').value,
-  description: new_type_form.querySelector('.description').value,
-  price: new_type_form.querySelector('.price').value,
+    name: type_form.querySelector(".name").value,
+    description: type_form.querySelector(".description").value,
+    price: type_form.querySelector(".price").value,
   };
-  
-    // estas lineas son para ver desde la consola en el navegador los datos que se envian
-  for(let key in data){
-    console.log(`${key}: ${data[key]}`)
-  }
+  // para ir viendo q se manda al back console.log("Datos a enviar al backend:", data);
+  try {
+    let url = `${API_BASE_URL}/member_type/create`;
+    let method = "POST";
 
-    try {
-      const response = await fetch(`${API_BASE_URL}/member_type/create`, {
-        method: "POST",
-        headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
+    // Si hay id, significa que estamos EDITANDO
+    if (id) {
+      url = `${API_BASE_URL}/member_type/edit/${id}`;
+      method = "PUT"; 
+    }
 
-      });
+    const response = await fetch(url, {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
 
-      if (!response.ok) throw new Error("Error en el registro");
-      
-      const result = await response.json();
-      // me devolvia un array, por eso hice la siguiente modificacion console.log("Respuesta del backend:", result);
-      const nuevo = result[result.length - 1]; // se añadio un nuevo tipo al ultimo objeto del array
-      alert(`Se añadió correctamente el nuevo tipo de miembro:
-      Tipo: ${nuevo.name}  
-      Precio: ${nuevo.price}`);
-      
-          // Agregar la nueva fila al DataTable directamente
+    if (!response.ok) throw new Error("Error al guardar");
+
+    const listaActualizada = await response.json();
+
+    // refrescar tabla
+    tabla.clear();
+    listaActualizada.forEach(type => {
       tabla.row.add({
-        id: nuevo.id,
-        name: nuevo.name,
-        description: nuevo.description,
-        price: nuevo.price,
+        id: type.id,
+        name: type.name,
+        description: type.description,
+        price: type.price,
         acciones: `
           <button class="btn btn-warning btn-sm btn-editar">✏️</button>
           <button class="btn btn-danger btn-sm btn-eliminar">🗑️</button>
         `
-      }).draw();
+      });
+    });
+    tabla.draw();
 
-    new_type_form.reset();
-    modal_overlay.style.display = "none";
+    form_container.style.display = "none";
+    alert(id ? "Actualizado correctamente" : "Creado correctamente");
 
-      register_form.reset();
-      formContainer.classList.add("hidden");
-    } catch (error) {
-      alert("No se pudo registrar: " + error.message);
-    }
-    
-
+  } catch (error) {
+    alert("Error: " + error.message);
+  }
 });
-
 // eliminar filas (tipo de socios) desde panel de admins
 
 $('#tablaTipoSocios tbody').on('click', '.btn-eliminar', async function () {
@@ -510,6 +510,8 @@ $('#tablaTipoSocios tbody').on('click', '.btn-eliminar', async function () {
     }
   }
 });
+
+
 
 /////////////////////////////////////////// FIN DE FUNCIONES PARA ADMINS ////////////////////////////////////////
 
