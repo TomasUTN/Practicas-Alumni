@@ -370,7 +370,7 @@ fetch('http://127.0.0.1:8000/member_type/')
     const tabla = $('#tablaTipoSocios').DataTable();
     tabla.clear();
 
-  // recorrer los usuarios
+  // recorrer los tipos de socios
     data.forEach(type => {
       console.log(type);
       tabla.row.add({
@@ -443,15 +443,19 @@ new_type_form.addEventListener("submit", async (e) => {
       if (!response.ok) throw new Error("Error en el registro");
       
       const result = await response.json();
-      alert(`Se añadio correctamente el nuevo tipo de miembr:  Tipo: ${result.name}  precio: ${result.price}`);
+      // me devolvia un array, por eso hice la siguiente modificacion console.log("Respuesta del backend:", result);
+      const nuevo = result[result.length - 1]; // se añadio un nuevo tipo al ultimo objeto del array
+      alert(`Se añadió correctamente el nuevo tipo de miembro:
+      Tipo: ${nuevo.name}  
+      Precio: ${nuevo.price}`);
       
           // Agregar la nueva fila al DataTable directamente
       const tabla = $('#tablaTipoSocios').DataTable();
       tabla.row.add({
-        id: result.id,
-        name: result.name,
-        description: result.description,
-        price: result.price,
+        id: nuevo.id,
+        name: nuevo.name,
+        description: nuevo.description,
+        price: nuevo.price,
         acciones: `
           <button class="btn btn-warning btn-sm">✏️</button>
           <button class="btn btn-danger btn-sm">🗑️</button>
