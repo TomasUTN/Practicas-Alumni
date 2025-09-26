@@ -348,26 +348,24 @@ fetch('http://127.0.0.1:8000/member/')
 
 ///////////////////////////////////////////////// TIPO DE SOCIOS ///////////////////////////////////////////////////////////////////
 // Inicializar DataTable de Tipo de Socios
-$(document).ready(function() {
-  $('#tablaTipoSocios').DataTable({
-    language: {
-      url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
-    },
-      columns: [
-      { data: "id", title: "ID" ,defaultContent: ""},
-      { data: "name", title: "Nombre", defaultContent: "" },
-      { data: "description", title: "Descripcion", defaultContent: "" },
-      { data: "price", title: "Precio", defaultContent: "" },
-      { data: "acciones", title: "Acciones" , defaultContent: ""}
-    ]
-  });
+
+const tabla = $('#tablaTipoSocios').DataTable({
+  language: {
+    url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
+  },
+  columns: [
+    { data: "id", title: "ID" , defaultContent: "" },
+    { data: "name", title: "Nombre", defaultContent: "" },
+    { data: "description", title: "Descripcion", defaultContent: "" },
+    { data: "price", title: "Precio", defaultContent: "" },
+    { data: "acciones", title: "Acciones", defaultContent: "" }
+  ]
 });
 
 // Relleno de la tabla 
 fetch('http://127.0.0.1:8000/member_type/')
   .then(response => response.json())
   .then(data => {
-    const tabla = $('#tablaTipoSocios').DataTable();
     tabla.clear();
 
   // recorrer los tipos de socios
@@ -379,8 +377,8 @@ fetch('http://127.0.0.1:8000/member_type/')
         description: type.description,
         price: type.price,
         acciones: `
-          <button class="btn btn-warning btn-sm">✏️</button>
-          <button class="btn btn-danger btn-sm">🗑️</button>
+          <button class="btn btn-warning btn-sm btn-editar">✏️</button>
+          <button class="btn btn-danger btn-sm btn-eliminar">🗑️</button>
         `
       });
     });
@@ -450,15 +448,14 @@ new_type_form.addEventListener("submit", async (e) => {
       Precio: ${nuevo.price}`);
       
           // Agregar la nueva fila al DataTable directamente
-      const tabla = $('#tablaTipoSocios').DataTable();
       tabla.row.add({
         id: nuevo.id,
         name: nuevo.name,
         description: nuevo.description,
         price: nuevo.price,
         acciones: `
-          <button class="btn btn-warning btn-sm">✏️</button>
-          <button class="btn btn-danger btn-sm">🗑️</button>
+          <button class="btn btn-warning btn-sm btn-editar">✏️</button>
+          <button class="btn btn-danger btn-sm btn-eliminar">🗑️</button>
         `
       }).draw();
 
@@ -473,6 +470,47 @@ new_type_form.addEventListener("submit", async (e) => {
     
 
 });
+
+// eliminar filas (tipo de socios) desde panel de admins
+
+$('#tablaTipoSocios tbody').on('click', '.btn-eliminar', async function () {
+  const fila = tabla.row($(this).parents('tr')).data();
+  console.log("Eliminar:", fila);
+
+  if (confirm(`¿Seguro que quieres eliminar el tipo de socio "${fila.name}"?`)) {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/member_type/delete/${fila.id}`, {
+        method: "DELETE"
+      });
+
+      if (!response.ok) throw new Error("Error al eliminar");
+
+      const listaActualizada = await response.json();
+
+      // refrescamos tabla completa
+      tabla.clear();
+      listaActualizada.forEach(type => {
+        tabla.row.add({
+          id: type.id,
+          name: type.name,
+          description: type.description,
+          price: type.price,
+          acciones: `
+            <button class="btn btn-warning btn-sm btn-editar">✏️</button>
+            <button class="btn btn-danger btn-sm btn-eliminar">🗑️</button>
+          `
+        });
+      });
+      tabla.draw();
+
+      alert("Eliminado correctamente");
+
+    } catch (error) {
+      alert("No se pudo eliminar: " + error.message);
+    }
+  }
+});
+
 /////////////////////////////////////////// FIN DE FUNCIONES PARA ADMINS ////////////////////////////////////////
 
 // Función para mostrar/ocultar secciones
