@@ -46,6 +46,22 @@
 
     <main class="contenido">
        <!-- Sección Usuarios -->
+
+      <!-- Formulario agregar/editar usuarios -->
+      <div id="form_user_container" class="form-user-container" style="display:none;">
+        <form id="user_form" class="form-user">
+          <span class="close-form-user">&times;</span><br>
+          
+          <!-- Campo oculto para edición -->
+          <input type="hidden" class="id">
+
+          <input type="email" class="email" placeholder="E-mail" required>
+          <input type="text" class="password" placeholder="Contraseña" required>
+          <input type="text" class="repeat_password" placeholder="Repetir la Contraseña" required>
+
+          <button type="submit" class="btn-guardar-user">Guardar</button>
+        </form>
+      </div>
       <section id="usuarios" class="seccion-admin" style="display:none;">
         <h2>Usuarios</h2>
         <button class="btn-agregar-user">Agregar Usuario</button>

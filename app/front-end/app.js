@@ -268,8 +268,8 @@ fetch('http://127.0.0.1:8000/user/')
         password: user.password,
         rol: user.rol,
         acciones: `
-          <button class="btn btn-warning btn-sm">✏️</button>
-          <button class="btn btn-danger btn-sm">🗑️</button>
+          <button class="btn btn-warning btn-sm btn-editar-user">✏️</button>
+          <button class="btn btn-danger btn-sm btn-eliminar">🗑️</button>
         `
       });
     });
@@ -278,7 +278,96 @@ fetch('http://127.0.0.1:8000/user/')
       tabla.draw();
     })
     .catch(error => console.error("Error cargando usuarios:", error));
+    // agregar nuevos o editar users desde la vista de admin
+const form_container_user = document.getElementById("form_user_container");
+const user_form = document.getElementById("user_form");
+const close_user_form = document.querySelector(".close-form-user");
 
+// Abrir en modo CREAR
+document.querySelector(".btn-agregar-user").addEventListener("click", () => {
+  user_form.reset();
+  user_form.querySelector(".id").value = "";
+  form_container_user.style.display = "block";
+});
+
+// Abrir en modo EDITAR
+$('#tablaUsuarios tbody').on('click', '.btn-editar-user', function () {
+  const fila = tabla.row($(this).parents('tr')).data();
+
+  user_form.querySelector(".id").value = fila.id;
+  user_form.querySelector(".email").value = fila.email;
+  user_form.querySelector(".password").value = fila.password;
+  user_form.querySelector(".repeat_password").value = fila.repeat_password;
+
+  form_container_user.style.display = "block";
+});
+
+// Cerrar formulario
+close_user_form.addEventListener("click", () => {
+  form_container_user.style.display = "none";
+});
+
+// Submit del formulario (CREAR o EDITAR según corresponda)
+user_form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const id = user_form.querySelector(".id").value;
+  const data = {
+    email: user_form.querySelector(".email").value,
+    password: user_form.querySelector(".password").value,
+    repeat_password: user_form.querySelector(".repeat_password").value,
+    rol: `client`
+  };
+  //para ir viendo q se manda al back
+  console.log("Datos a enviar al backend:", data);
+  try {
+    let url = `${API_BASE_URL}/user/create`;
+    let method = "POST";
+
+    // Si hay id, significa que estamos EDITANDO
+    if (id) {
+      url = `${API_BASE_URL}/user/edit/${id}`;
+      method = "PUT"; 
+    }
+
+    const response = await fetch(url, {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) throw new Error("Error al guardar");
+
+    const user = await response.json();
+
+    form_container_user.style.display = "none";
+    alert(id ? "Actualizado correctamente" : "Creado correctamente");
+
+  } catch (error) {
+    alert("Error: " + error.message);
+  }
+// refresco la base de datos para que se cargue el nuevo registro
+const dt = $('#tablaUsuarios').DataTable();
+
+  fetch('http://127.0.0.1:8000/user/')
+    .then(res => res.json())
+    .then(users => {
+      dt.clear();
+      users.forEach(user => {
+        dt.row.add({
+          id: user.id,
+          email: user.email,
+          password: user.password,
+          rol: user.rol,
+          acciones: `
+            <button class="btn btn-warning btn-sm btn-editar-user">✏️</button>
+            <button class="btn btn-danger btn-sm btn-eliminar-user">🗑️</button>
+          `
+        });
+      });
+      dt.draw();
+    });
+});
 ///////////////////////////////////////////////// SOCIOS ///////////////////////////////////////////////////////////////////
 // Inicializar DataTable de Socios
 
@@ -370,7 +459,7 @@ fetch('http://127.0.0.1:8000/member_type/')
 
   // recorrer los tipos de socios
     data.forEach(type => {
-      console.log(type);
+      //console.log(type);
       tabla.row.add({
         id: type.id,
         name: type.name,
