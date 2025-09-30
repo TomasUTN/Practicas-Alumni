@@ -237,8 +237,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 ///////////////////////////////////////////////// USUARIOS ///////////////////////////////////////////////////////////////////
 // Inicializar DataTable de usuarios
+let tabla_usuarios;
+
 $(document).ready(function() {
-  $('#tablaUsuarios').DataTable({
+
+  tabla_usuarios = $('#tablaUsuarios').DataTable({
     language: {
       url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
     },
@@ -256,13 +259,12 @@ $(document).ready(function() {
 fetch('http://127.0.0.1:8000/user/')
   .then(response => response.json())
   .then(data => {
-    const tabla = $('#tablaUsuarios').DataTable();
-    tabla.clear();
+    tabla_usuarios.clear();
 
   // recorrer los usuarios
     data.forEach(user => {
       // console.log(user);
-      tabla.row.add({
+      tabla_usuarios.row.add({
         id: user.id,
         email: user.email,
         password: user.password,
@@ -275,7 +277,7 @@ fetch('http://127.0.0.1:8000/user/')
     });
 
       // refrescar DataTable
-      tabla.draw();
+      tabla_usuarios.draw();
     })
     .catch(error => console.error("Error cargando usuarios:", error));
     // agregar nuevos o editar users desde la vista de admin
@@ -292,12 +294,12 @@ document.querySelector(".btn-agregar-user").addEventListener("click", () => {
 
 // Abrir en modo EDITAR
 $('#tablaUsuarios tbody').on('click', '.btn-editar-user', function () {
-  const fila = tabla.row($(this).parents('tr')).data();
+  const fila = tabla_usuarios.row($(this).parents('tr')).data();
 
   user_form.querySelector(".id").value = fila.id;
   user_form.querySelector(".email").value = fila.email;
   user_form.querySelector(".password").value = fila.password;
-  user_form.querySelector(".repeat_password").value = fila.repeat_password;
+  user_form.querySelector(".repeat_password").value = "";
 
   form_container_user.style.display = "block";
 });
@@ -326,7 +328,7 @@ user_form.addEventListener("submit", async (e) => {
 
     // Si hay id, significa que estamos EDITANDO
     if (id) {
-      url = `${API_BASE_URL}/user/edit/${id}`;
+      url = `${API_BASE_URL}/user/update/${id}`;
       method = "PUT"; 
     }
 
@@ -347,14 +349,13 @@ user_form.addEventListener("submit", async (e) => {
     alert("Error: " + error.message);
   }
 // refresco la base de datos para que se cargue el nuevo registro
-const dt = $('#tablaUsuarios').DataTable();
 
   fetch('http://127.0.0.1:8000/user/')
     .then(res => res.json())
     .then(users => {
-      dt.clear();
+      tabla_usuarios.clear();
       users.forEach(user => {
-        dt.row.add({
+        tabla_usuarios.row.add({
           id: user.id,
           email: user.email,
           password: user.password,
@@ -365,9 +366,49 @@ const dt = $('#tablaUsuarios').DataTable();
           `
         });
       });
-      dt.draw();
+      tabla_usuarios.draw();
     });
 });
+// eliminar filas (Usuarios) desde panel de admins
+
+$('#tablaUsuarios tbody').on('click', '.btn-eliminar-user', async function () {
+  const fila = tabla_usuarios.row($(this).parents('tr')).data();
+  //console.log("Eliminar:", fila);
+
+  if (confirm(`¿Seguro que quieres eliminar el usuario "${fila.email}"?`)) {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/user/delete/${fila.id}`, {
+        method: "DELETE"
+      });
+
+      if (!response.ok) throw new Error("Error al eliminar");
+
+      const listaActualizada = await response.json();
+
+      // refrescamos tabla completa
+      tabla_usuarios.clear();
+      listaActualizada.forEach(type => {
+        tabla_usuarios.row.add({
+          id: type.id,
+          email: type.email,
+          password: type.password,
+          rol: type.rol,
+          acciones: `
+            <button class="btn btn-warning btn-sm btn-editar">✏️</button>
+            <button class="btn btn-danger btn-sm btn-eliminar">🗑️</button>
+          `
+        });
+      });
+      tabla_usuarios.draw();
+
+      alert("Eliminado correctamente");
+
+    } catch (error) {
+      alert("No se pudo eliminar: " + error.message);
+    }
+  }
+});
+
 ///////////////////////////////////////////////// SOCIOS ///////////////////////////////////////////////////////////////////
 // Inicializar DataTable de Socios
 
