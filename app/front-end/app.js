@@ -271,7 +271,7 @@ fetch('http://127.0.0.1:8000/user/')
         rol: user.rol,
         acciones: `
           <button class="btn btn-warning btn-sm btn-editar-user">✏️</button>
-          <button class="btn btn-danger btn-sm btn-eliminar">🗑️</button>
+          <button class="btn btn-danger btn-sm btn-eliminar-user">🗑️</button>
         `
       });
     });
@@ -300,6 +300,7 @@ $('#tablaUsuarios tbody').on('click', '.btn-editar-user', function () {
   user_form.querySelector(".email").value = fila.email;
   user_form.querySelector(".password").value = fila.password;
   user_form.querySelector(".repeat_password").value = "";
+  user_form.querySelector(".rol").value = fila.rol;
 
   form_container_user.style.display = "block";
 });
@@ -318,7 +319,7 @@ user_form.addEventListener("submit", async (e) => {
     email: user_form.querySelector(".email").value,
     password: user_form.querySelector(".password").value,
     repeat_password: user_form.querySelector(".repeat_password").value,
-    rol: `client`
+    rol: user_form.querySelector(".rol").value
   };
   //para ir viendo q se manda al back
   console.log("Datos a enviar al backend:", data);
