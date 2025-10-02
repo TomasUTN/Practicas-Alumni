@@ -413,8 +413,9 @@ $('#tablaUsuarios tbody').on('click', '.btn-eliminar-user', async function () {
 ///////////////////////////////////////////////// SOCIOS ///////////////////////////////////////////////////////////////////
 // Inicializar DataTable de Socios
 
+let tabla_socios;
 $(document).ready(function() {
-  $('#tablaSocios').DataTable({
+  tabla_socios= $('#tablaSocios').DataTable({
     language: {
       url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
     },
@@ -424,7 +425,7 @@ $(document).ready(function() {
       { data: "photo", title: "Foto", defaultContent: "" },
       { data: "name", title: "Nombre", defaultContent: "" },
       { data: "surname", title: "Apellido" , defaultContent: ""},
-      { data: "DNI", title: "DNI" ,defaultContent: ""},
+      { data: "dni", title: "DNI" ,defaultContent: ""},
       { data: "date_of_birth", title: "Fecha Nac", defaultContent: "" },
       { data: "phone", title: "Telefono", defaultContent: "" },
       { data: "city", title: "Ciudad", defaultContent: "" },
@@ -443,19 +444,18 @@ $(document).ready(function() {
 fetch('http://127.0.0.1:8000/member/')
   .then(response => response.json())
   .then(data => {
-    const tabla = $('#tablaSocios').DataTable();
-    tabla.clear();
+    tabla_socios.clear();
 
   // recorrer los socios
     data.forEach(member => {
       //console.log(member);
-      tabla.row.add({
+      tabla_socios.row.add({
         id: member.id,
         id_user: member.id_user,
         photo: "/static/photos/generico",
         name: member.name,
         surname: member.surname,
-        DNI: member.DNI,
+        dni: member.dni,
         date_of_birth: member.date_of_birth,
         phone: member.phone,
         city: member.city,
@@ -466,16 +466,147 @@ fetch('http://127.0.0.1:8000/member/')
         last_pay: member.last_pay,
         debt: member.debt,
         acciones: `
-          <button class="btn btn-warning btn-sm">✏️</button>
-          <button class="btn btn-danger btn-sm">🗑️</button>
+          <button class="btn btn-warning btn-sm btn-editar-socio">✏️</button>
+          <button class="btn btn-danger btn-sm btn-eliminar-socio">🗑️</button>
         `
       });
     });
 
       // refrescar DataTable
-      tabla.draw();
+      tabla_socios.draw();
     })
     .catch(error => console.error("Error cargando los socios:", error));
+
+ // agregar nuevos o editar socios desde la vista de admin
+const form_container_member = document.getElementById("form_member_container");
+const member_form = document.getElementById("member_form"); /// estoy modificando para que funcione con miembros
+const close_member_form = document.querySelector(".close-form-member");
+
+// Abrir en modo CREAR
+document.querySelector(".btn-agregar-member").addEventListener("click", () => {
+  member_form.reset();
+  member_form.querySelector(".id").value = "";
+  form_container_member.style.display = "block";
+});
+
+// Abrir en modo EDITAR
+$('#tablaSocios tbody').on('click', '.btn-editar-socio', function () {
+  const fila = tabla_socios.row($(this).parents('tr')).data();
+
+  member_form.querySelector(".name").value = fila.name;
+  member_form.querySelector(".surname").value = fila.surname;
+  member_form.querySelector(".dni").value = fila.dni;
+  member_form.querySelector(".date_of_birth").value = fila.date_of_birth;
+  member_form.querySelector(".phone").value = fila.phone;
+  member_form.querySelector(".city").value = fila.city;
+  member_form.querySelector(".post_code").value = fila.post_code;
+  member_form.querySelector(".adress").value = fila.adress;
+  member_form.querySelector(".date_of_up").value = fila.date_of_up;
+  member_form.querySelector(".member_type").value = fila.type_member;
+  member_form.querySelector(".last_pay").value = fila.last_pay;
+  member_form.querySelector(".debt").value = fila.debt;
+  member_form.querySelector(".photo").value = fila.photo;
+
+  form_container_member.style.display = "block";
+});
+
+// Cerrar formulario
+close_member_form.addEventListener("click", () => {
+  form_container_member.style.display = "none";
+});
+
+// Submit del formulario (CREAR o EDITAR según corresponda)
+member_form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const id = member_form.querySelector(".id").value;
+
+  // Crear FormData para enviar como multipart/form-data
+  const formData = new FormData();
+  formData.append("id_user", parseInt(member_form.querySelector(".id_user").value))
+  formData.append("name", member_form.querySelector(".name").value);
+  formData.append("surname", member_form.querySelector(".surname").value);
+  formData.append("DNI", parseInt(member_form.querySelector(".dni").value));
+  
+  formData.append("phone", parseInt(member_form.querySelector(".phone").value));
+  formData.append("city", member_form.querySelector(".city").value);
+  formData.append("post_code", parseInt(member_form.querySelector(".post_code").value));
+  formData.append("adress", member_form.querySelector(".adress").value);
+  
+  formData.append("type_member", parseInt(member_form.querySelector(".member_type").value));
+  
+  formData.append("debt", parseInt(member_form.querySelector(".debt").value));
+
+
+  formData.append("date_of_birth", formatDateToDDMMYYYY(document.querySelector(".date_of_birth").value));
+  formData.append("date_of_up", formatDateToDDMMYYYY(document.querySelector(".date_of_up").value));
+  formData.append("last_pay", formatDateToDDMMYYYY(document.querySelector(".last_pay").value));
+  // Adjuntar foto como archivo (si seleccionaron algo)
+  const photoFile = member_form.querySelector(".photo").files[0];
+  if (photoFile) {
+    formData.append("photo", photoFile);
+  }
+
+  try {
+    let url = `${API_BASE_URL}/member/create`;
+    let method = "POST";
+
+    if (id) {
+      url = `${API_BASE_URL}/member/update/${id}`;
+      method = "PUT";
+    }
+
+    const response = await fetch(url, {
+      method,
+      body: formData, // 🚨 importante: no usar JSON.stringify acá
+    });
+    console.log("Datos a enviar al backend:");
+    formData.forEach((value, key) => {
+      console.log(key, value);
+    });
+
+    if (!response.ok) throw new Error("Error al guardar");
+
+    const member = await response.json();
+    form_container_member.style.display = "none";
+    alert(id ? "Actualizado correctamente" : "Creado correctamente");
+
+  } catch (error) {
+    alert("Error: " + error.message);
+  }
+});
+// refresco la base de datos para que se cargue el nuevo registro
+  fetch('http://127.0.0.1:8000/member/')
+    .then(res => res.json())
+    .then(socios => {
+      tabla_socios.clear();
+      socios.forEach(socio => {
+          tabla_socios.row.add({
+          id: socio.id,
+          id_user: socio.id_user,
+          photo: "/static/photos/generico",
+          name: socio.name,
+          surname: socio.surname,
+          dni: socio.dni,
+          date_of_birth: socio.date_of_birth,
+          phone: socio.phone,
+          city: socio.city,
+          post_code: socio.post_code,
+          adress: socio.adress,
+          date_of_up: socio.date_of_up,
+          type_member: socio.member_type, // ver de modificar para que en lugar del id aparezca el nombre de ese tipo
+          last_pay: socio.last_pay,
+          debt: socio.debt,
+          acciones: `
+            <button class="btn btn-warning btn-sm btn-editar-member">✏️</button>
+            <button class="btn btn-danger btn-sm btn-eliminar-member">🗑️</button>
+          `
+        });
+      });
+      tabla_socios.draw();
+    });
+
+
 
 ///////////////////////////////////////////////// TIPO DE SOCIOS ///////////////////////////////////////////////////////////////////
 // Inicializar DataTable de Tipo de Socios

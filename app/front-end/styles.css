@@ -402,6 +402,67 @@ iframe {
 
 
 
+/* Contenedor del formulario editar/crear socios */
+.form-member-container {
+  position: absolute;
+  top: 120px;
+  left: 600px;  
+  z-index: 1000;
+}
+
+/* Formulario */
+.form-member {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Inputs */
+.form-member input {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+}
+
+.form-member input:focus {
+  border-color: #e60000;
+  box-shadow: 0 0 5px rgba(230,0,0,0.4);
+}
+
+/* Botón */
+.btn-guardar-member {
+  background: #e60000;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-guardar-member :hover {
+  background: #b80000;
+}
+
+/* Botón de cierre (X) */
+.close-form-member {
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  color: #666;
+  margin-right: 10px;
+}
+
+.close-form-member:hover {
+  color: #e60000;
+}
+
 /* Contenedor del formulario editar/crear user */
 .form-user-container {
   position: absolute;

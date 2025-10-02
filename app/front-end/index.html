@@ -82,6 +82,32 @@
       </section>
 
       <!-- Seccion Socios -->
+
+      <div id="form_member_container" class="form-member-container" style="display:none;">
+        <form id="member_form" class="form-member">
+          <span class="close-form-member">&times;</span><br>
+          
+          <!-- Campo oculto para edición -->
+          <input type="hidden" class="id"><br>
+          <input type="number" class="id_user" placeholder="ID miembro"><br>
+          <input type="file" class="photo"><br>
+          <input type="text" class="name" placeholder="Nombre" required><br>
+          <input type="text" class="surname" placeholder="Apellido" required><br>
+          <input type="number" class="dni" placeholder="DNI" required><br>
+          <input type="date" class="date_of_birth" required><br>
+          <input type="number" class="phone" placeholder="Telefono" required><br>
+          <input type="text" class="city" placeholder="Ciudad" required><br>
+          <input type="number" class="post_code" placeholder="Codigo postal" required><br>
+          <input type="text" class="adress" placeholder="Direccion" required><br>
+          <input type="date" class="date_of_up" required><br>
+          <input type="number" class="member_type"placeholder="Numero tipo de miembro" required><br>
+          <input type="date" class="last_pay" required><br>
+          <input type="number" class="debt" placeholder="deuda"required><br>
+
+          <button type="submit" class="btn-guardar-member">Guardar</button>
+        </form>
+      </div>
+
       <section id="socios" class="seccion-admin" style="display:none;">
         <h2>Socios</h2>
         <button class="btn-agregar-member">Agregar Socio</button>
