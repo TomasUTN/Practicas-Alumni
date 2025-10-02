@@ -90,7 +90,8 @@
           <!-- Campo oculto para edición -->
           <input type="hidden" class="id"><br>
           <input type="number" class="id_user" placeholder="ID miembro"><br>
-          <input type="file" class="photo"><br>
+          <input type="file" class="photo" name="photo">
+          <img id="photo-preview" src="" alt="Foto actual" style="max-width:100px;">
           <input type="text" class="name" placeholder="Nombre" required><br>
           <input type="text" class="surname" placeholder="Apellido" required><br>
           <input type="number" class="dni" placeholder="DNI" required><br>
@@ -100,7 +101,7 @@
           <input type="number" class="post_code" placeholder="Codigo postal" required><br>
           <input type="text" class="adress" placeholder="Direccion" required><br>
           <input type="date" class="date_of_up" required><br>
-          <input type="number" class="member_type"placeholder="Numero tipo de miembro" required><br>
+          <input type="number" class="type_member"placeholder="Numero tipo de miembro" required><br>
           <input type="date" class="last_pay" required><br>
           <input type="number" class="debt" placeholder="deuda"required><br>
 

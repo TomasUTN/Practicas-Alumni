@@ -444,6 +444,7 @@ $(document).ready(function() {
 fetch('http://127.0.0.1:8000/member/')
   .then(response => response.json())
   .then(data => {
+    console.log("Datos recibidos del backend:", data);
     tabla_socios.clear();
 
   // recorrer los socios
@@ -455,7 +456,7 @@ fetch('http://127.0.0.1:8000/member/')
         photo: "/static/photos/generico",
         name: member.name,
         surname: member.surname,
-        dni: member.dni,
+        dni: member.DNI,
         date_of_birth: member.date_of_birth,
         phone: member.phone,
         city: member.city,
@@ -492,6 +493,10 @@ document.querySelector(".btn-agregar-member").addEventListener("click", () => {
 // Abrir en modo EDITAR
 $('#tablaSocios tbody').on('click', '.btn-editar-socio', function () {
   const fila = tabla_socios.row($(this).parents('tr')).data();
+  console.log("Fila seleccionada para editar:", fila);
+
+  member_form.querySelector(".id").value = fila.id;
+  member_form.querySelector(".id_user").value = fila.id_user;
 
   member_form.querySelector(".name").value = fila.name;
   member_form.querySelector(".surname").value = fila.surname;
@@ -502,10 +507,10 @@ $('#tablaSocios tbody').on('click', '.btn-editar-socio', function () {
   member_form.querySelector(".post_code").value = fila.post_code;
   member_form.querySelector(".adress").value = fila.adress;
   member_form.querySelector(".date_of_up").value = fila.date_of_up;
-  member_form.querySelector(".member_type").value = fila.type_member;
+  member_form.querySelector(".type_member").value = fila.type_member;
   member_form.querySelector(".last_pay").value = fila.last_pay;
   member_form.querySelector(".debt").value = fila.debt;
-  member_form.querySelector(".photo").value = fila.photo;
+  document.getElementById("photo-preview").src = fila.photo ? fila.photo : "/static/photos/generico";
 
   form_container_member.style.display = "block";
 });
@@ -526,14 +531,14 @@ member_form.addEventListener("submit", async (e) => {
   formData.append("id_user", parseInt(member_form.querySelector(".id_user").value))
   formData.append("name", member_form.querySelector(".name").value);
   formData.append("surname", member_form.querySelector(".surname").value);
-  formData.append("DNI", parseInt(member_form.querySelector(".dni").value));
+  formData.append("dni", parseInt(member_form.querySelector(".dni").value));
   
   formData.append("phone", parseInt(member_form.querySelector(".phone").value));
   formData.append("city", member_form.querySelector(".city").value);
   formData.append("post_code", parseInt(member_form.querySelector(".post_code").value));
   formData.append("adress", member_form.querySelector(".adress").value);
   
-  formData.append("type_member", parseInt(member_form.querySelector(".member_type").value));
+  formData.append("type_member", parseInt(member_form.querySelector(".type_member").value));
   
   formData.append("debt", parseInt(member_form.querySelector(".debt").value));
 
@@ -587,18 +592,18 @@ member_form.addEventListener("submit", async (e) => {
           photo: "/static/photos/generico",
           name: socio.name,
           surname: socio.surname,
-          dni: socio.dni,
+          dni: socio.DNI,
           date_of_birth: socio.date_of_birth,
           phone: socio.phone,
           city: socio.city,
           post_code: socio.post_code,
           adress: socio.adress,
           date_of_up: socio.date_of_up,
-          type_member: socio.member_type, // ver de modificar para que en lugar del id aparezca el nombre de ese tipo
+          type_member: socio.type_member, // ver de modificar para que en lugar del id aparezca el nombre de ese tipo
           last_pay: socio.last_pay,
           debt: socio.debt,
           acciones: `
-            <button class="btn btn-warning btn-sm btn-editar-member">✏️</button>
+            <button class="btn btn-warning btn-sm btn-editar-socio">✏️</button>
             <button class="btn btn-danger btn-sm btn-eliminar-member">🗑️</button>
           `
         });
