@@ -531,7 +531,7 @@ member_form.addEventListener("submit", async (e) => {
   formData.append("id_user", parseInt(member_form.querySelector(".id_user").value))
   formData.append("name", member_form.querySelector(".name").value);
   formData.append("surname", member_form.querySelector(".surname").value);
-  formData.append("dni", parseInt(member_form.querySelector(".dni").value));
+  formData.append("DNI", parseInt(member_form.querySelector(".dni").value));
   
   formData.append("phone", parseInt(member_form.querySelector(".phone").value));
   formData.append("city", member_form.querySelector(".city").value);
@@ -576,40 +576,42 @@ member_form.addEventListener("submit", async (e) => {
     form_container_member.style.display = "none";
     alert(id ? "Actualizado correctamente" : "Creado correctamente");
 
+    // refresco la base de datos para que se cargue el nuevo registro
+    fetch('http://127.0.0.1:8000/member/')
+      .then(res => res.json())
+      .then(socios => {
+        tabla_socios.clear();
+        socios.forEach(socio => {
+            tabla_socios.row.add({
+            id: socio.id,
+            id_user: socio.id_user,
+            photo: "/static/photos/generico",
+            name: socio.name,
+            surname: socio.surname,
+            dni: socio.DNI,
+            date_of_birth: socio.date_of_birth,
+            phone: socio.phone,
+            city: socio.city,
+            post_code: socio.post_code,
+            adress: socio.adress,
+            date_of_up: socio.date_of_up,
+            type_member: socio.type_member, // ver de modificar para que en lugar del id aparezca el nombre de ese tipo
+            last_pay: socio.last_pay,
+            debt: socio.debt,
+            acciones: `
+              <button class="btn btn-warning btn-sm btn-editar-socio">✏️</button>
+              <button class="btn btn-danger btn-sm btn-eliminar-member">🗑️</button>
+            `
+          });
+        });
+        tabla_socios.draw();
+      });
+
   } catch (error) {
     alert("Error: " + error.message);
   }
 });
-// refresco la base de datos para que se cargue el nuevo registro
-  fetch('http://127.0.0.1:8000/member/')
-    .then(res => res.json())
-    .then(socios => {
-      tabla_socios.clear();
-      socios.forEach(socio => {
-          tabla_socios.row.add({
-          id: socio.id,
-          id_user: socio.id_user,
-          photo: "/static/photos/generico",
-          name: socio.name,
-          surname: socio.surname,
-          dni: socio.DNI,
-          date_of_birth: socio.date_of_birth,
-          phone: socio.phone,
-          city: socio.city,
-          post_code: socio.post_code,
-          adress: socio.adress,
-          date_of_up: socio.date_of_up,
-          type_member: socio.type_member, // ver de modificar para que en lugar del id aparezca el nombre de ese tipo
-          last_pay: socio.last_pay,
-          debt: socio.debt,
-          acciones: `
-            <button class="btn btn-warning btn-sm btn-editar-socio">✏️</button>
-            <button class="btn btn-danger btn-sm btn-eliminar-member">🗑️</button>
-          `
-        });
-      });
-      tabla_socios.draw();
-    });
+
 
 
 
