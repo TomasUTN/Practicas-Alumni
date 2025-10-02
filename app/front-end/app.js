@@ -600,7 +600,7 @@ member_form.addEventListener("submit", async (e) => {
             debt: socio.debt,
             acciones: `
               <button class="btn btn-warning btn-sm btn-editar-socio">✏️</button>
-              <button class="btn btn-danger btn-sm btn-eliminar-member">🗑️</button>
+              <button class="btn btn-danger btn-sm btn-eliminar-socio">🗑️</button>
             `
           });
         });
@@ -612,7 +612,56 @@ member_form.addEventListener("submit", async (e) => {
   }
 });
 
+// eliminar filas (socios) desde panel de admins
 
+$('#tablaSocios tbody').on('click', '.btn-eliminar-socio', async function () {
+  const fila = tabla_socios.row($(this).parents('tr')).data();
+  console.log("Eliminar:", fila);
+
+  if (confirm(`¿Seguro que quieres eliminar el socio "${fila.name}"?`)) {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/member/delete/${fila.id}`, {
+        method: "DELETE"
+      });
+
+      if (!response.ok) throw new Error("Error al eliminar");
+
+      const res = await fetch('http://127.0.0.1:8000/member/');
+      const socios = await res.json();
+
+      tabla_socios.clear();
+      socios.forEach(socio => {
+        tabla_socios.row.add({
+          id: socio.id,
+          id_user: socio.id_user,
+          photo: "/static/photos/generico",
+          name: socio.name,
+          surname: socio.surname,
+          dni: socio.DNI,
+          date_of_birth: socio.date_of_birth,
+          phone: socio.phone,
+          city: socio.city,
+          post_code: socio.post_code,
+          adress: socio.adress,
+          date_of_up: socio.date_of_up,
+          type_member: socio.type_member,
+          last_pay: socio.last_pay,
+          debt: socio.debt,
+          acciones: `
+            <button class="btn btn-warning btn-sm btn-editar-socio">✏️</button>
+            <button class="btn btn-danger btn-sm btn-eliminar-socio">🗑️</button>
+          `
+        });
+      });
+      tabla_socios.draw();
+
+      alert("Eliminado correctamente");
+
+    } catch (error) {
+      alert("No se pudo eliminar: " + error.message);
+    }
+  }
+});
 
 
 ///////////////////////////////////////////////// TIPO DE SOCIOS ///////////////////////////////////////////////////////////////////
