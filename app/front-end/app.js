@@ -846,3 +846,34 @@ function mostrarSeccion(id) {
   // mostrar solo la seleccionada
   document.getElementById(id).style.display = "block";
 }
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const track = document.querySelector(".carousel-track");
+  const items = Array.from(track.children);
+  const nextBtn = document.querySelector(".arrow.right");
+  const prevBtn = document.querySelector(".arrow.left");
+
+  let index = 0;
+
+  function updateCarousel() {
+    const offset = -index * 100;
+    track.style.transform = `translateX(${offset}%)`;
+  }
+
+  nextBtn.addEventListener("click", () => {
+    index = (index + 1) % items.length;
+    updateCarousel();
+  });
+
+  prevBtn.addEventListener("click", () => {
+    index = (index - 1 + items.length) % items.length;
+    updateCarousel();
+  });
+
+  // Deslizar automáticamente cada 8 segundos
+  setInterval(() => {
+    index = (index + 1) % items.length;
+    updateCarousel();
+  }, 8000);
+});
