@@ -847,7 +847,7 @@ function mostrarSeccion(id) {
   document.getElementById(id).style.display = "block";
 }
 
-
+// carrusel
 document.addEventListener("DOMContentLoaded", () => {
   const track = document.querySelector(".carousel-track");
   const items = Array.from(track.children);
@@ -857,8 +857,11 @@ document.addEventListener("DOMContentLoaded", () => {
   let index = 0;
 
   function updateCarousel() {
-    const offset = -index * 100;
-    track.style.transform = `translateX(${offset}%)`;
+    items.forEach((item, i) => item.classList.remove("active"));
+    items[index].classList.add("active");
+
+    const offset = -index * (items[0].offsetWidth + 20); // mover según el ancho real + margen
+    track.style.transform = `translateX(${offset}px)`;
   }
 
   nextBtn.addEventListener("click", () => {
@@ -871,9 +874,11 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCarousel();
   });
 
-  // Deslizar automáticamente cada 8 segundos
+  // Auto-slide
   setInterval(() => {
     index = (index + 1) % items.length;
     updateCarousel();
   }, 8000);
+
+  updateCarousel(); // inicial
 });
