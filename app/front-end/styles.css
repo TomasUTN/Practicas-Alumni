@@ -354,7 +354,10 @@ iframe {
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   display: flex;
   gap: 10px;
-  align-items: center;
+  align-items: stretch; 
+  max-width: 400px; 
+  margin: 0 auto;   
+  flex-direction: column; 
 }
 
 /* Inputs */
@@ -418,7 +421,10 @@ iframe {
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   display: flex;
   gap: 10px;
-  align-items: center;
+  align-items: stretch;  /* para que los inputs ocupen todo el ancho disponible */
+  max-width: 400px; /* ajusta a tu gusto */
+  margin: 0 auto;   /* centra horizontalmente */
+  flex-direction: column; /* 👈 agrega esto */
 }
 
 /* Inputs */
@@ -478,8 +484,11 @@ iframe {
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   display: flex;
+  flex-direction: column; /* 👈 agrega esto */
   gap: 10px;
-  align-items: center;
+  align-items: stretch;  /* para que los inputs ocupen todo el ancho disponible */
+  max-width: 400px; /* ajusta a tu gusto */
+  margin: 0 auto;   /* centra horizontalmente */
 }
 
 /* Inputs */
@@ -507,7 +516,7 @@ iframe {
   transition: 0.3s;
 }
 
-.btn-guardar-user :hover {
+.btn-guardar-user:hover {
   background: #b80000;
 }
 
