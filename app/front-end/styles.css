@@ -618,3 +618,61 @@ iframe {
 .arrow:hover {
   background: rgba(255,255,255,1);
 }
+
+/* imagenes para asociarse*/
+
+.socio-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px; /* Espacio entre imágenes y texto */
+  padding: 0;
+}
+
+.socio-img img {
+  width: 500px;
+  height: 650px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.socio-content {
+  text-align: center;
+  max-width: 500px;
+}
+
+.socio-content h2 {
+  margin-bottom: 15px;
+  font-size: 2em;
+}
+
+.socio-content p {
+  margin-bottom: 20px;
+}
+
+#asociate-btn {
+  background: linear-gradient(135deg, #b50000, #e60000); 
+  color: white;
+  border: none;
+  padding: 30px 70px; 
+  border-radius: 8px; 
+  cursor: pointer;
+  font-size: 1.6rem; 
+  font-weight: 600; 
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+  transition: all 0.3s ease;
+}
+
+/* Efecto hover */
+#asociate-btn:hover {
+  transform: scale(1.05); 
+  background: linear-gradient(135deg, #e60000, #ff4d4d); 
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Efecto al presionar */
+#asociate-btn:active {
+  transform: scale(0.98);
+}
