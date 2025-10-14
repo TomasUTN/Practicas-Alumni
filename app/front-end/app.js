@@ -253,8 +253,6 @@ $(document).ready(function() {
       { data: "acciones", title: "Acciones" , defaultContent: ""}
     ]
   });
-});
-
 // Relleno de la tabla 
 fetch('http://127.0.0.1:8000/user/')
   .then(response => response.json())
@@ -280,6 +278,10 @@ fetch('http://127.0.0.1:8000/user/')
       tabla_usuarios.draw();
     })
     .catch(error => console.error("Error cargando usuarios:", error));
+
+});
+
+
     // agregar nuevos o editar users desde la vista de admin
 const form_container_user = document.getElementById("form_user_container");
 const user_form = document.getElementById("user_form");
@@ -488,6 +490,8 @@ document.querySelector(".btn-agregar-member").addEventListener("click", () => {
   member_form.reset();
   member_form.querySelector(".id").value = "";
   form_container_member.style.display = "block";
+  member_form.querySelector(".date_of_up").style.display = "none";
+  member_form.querySelector(".last_pay").style.display = "none";
 });
 
 // Abrir en modo EDITAR
