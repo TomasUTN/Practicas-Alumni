@@ -498,6 +498,8 @@ document.querySelector(".btn-agregar-member").addEventListener("click", () => {
 $('#tablaSocios tbody').on('click', '.btn-editar-socio', function () {
   const fila = tabla_socios.row($(this).parents('tr')).data();
   console.log("Fila seleccionada para editar:", fila);
+  member_form.querySelector(".date_of_up").style.display = "none";
+  member_form.querySelector(".id_user").style.display = "none";
 
   member_form.querySelector(".id").value = fila.id;
   member_form.querySelector(".id_user").value = fila.id_user;
