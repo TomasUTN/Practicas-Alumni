@@ -23,14 +23,12 @@ async def create_member(
     city: str = Form(...),
     post_code: int = Form(...),
     adress: str = Form(...),
-    date_of_up: str = Form(...),
     type_member: int = Form(...),
-    last_pay: str = Form(...),
     debt: int = Form(...),
     photo: UploadFile = File(...),
     db: Session = Depends(get_db)
 ):
-    return await Member_services(db).create_member(id_user=id_user,photo=photo,name=name,surname=surname,DNI=DNI,date_of_birth=date_of_birth,phone=phone,city=city,post_code=post_code,adress=adress,date_of_up=date_of_up,type_member=type_member,last_pay=last_pay,debt=debt)
+    return await Member_services(db).create_member(id_user=id_user,photo=photo,name=name,surname=surname,DNI=DNI,date_of_birth=date_of_birth,phone=phone,city=city,post_code=post_code,adress=adress,type_member=type_member,debt=debt)
 
 @router_member.put("/update/{id}", response_model=Member_class)
 async def update_member(

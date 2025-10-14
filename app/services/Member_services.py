@@ -7,14 +7,14 @@ from fastapi import HTTPException, UploadFile
 from sqlalchemy.orm import joinedload
 import os
 import uuid
-from datetime import datetime
+from datetime import datetime, date
 
 class Member_services:
   
     def get_all_members(self):
         return self.db.query(Member_db).options(joinedload(Member_db.user)).all()
 
-    async def create_member(self, id_user, photo, name, surname, DNI, date_of_birth, phone, city, post_code, adress, date_of_up, type_member, last_pay, debt):
+    async def create_member(self, id_user, photo, name, surname, DNI, date_of_birth, phone, city, post_code, adress, type_member, debt):
         # Validar que el usuario existe
         user = self.db.query(User_db).filter(User_db.id == id_user).first()
         if not user:
@@ -25,10 +25,12 @@ class Member_services:
             raise HTTPException(status_code=404, detail="Tipo de miembro no encontrado")
 
         # Convertir fechas
+        today = date.today()
+        
         try:
             date_of_birth_dt = datetime.strptime(date_of_birth, "%d/%m/%Y").date()
-            date_of_up_dt = datetime.strptime(date_of_up, "%d/%m/%Y").date()
-            last_pay_dt = datetime.strptime(last_pay, "%d/%m/%Y").date()
+            date_of_up_dt = datetime.strptime(today.strftime("%d/%m/%Y"), "%d/%m/%Y").date()
+            last_pay_dt = datetime.strptime(today.strftime("%d/%m/%Y"), "%d/%m/%Y").date()
         except ValueError:
             raise HTTPException(status_code=400, detail="Formato de fecha inválido. Usa DD/MM/YYYY.")
 

@@ -182,6 +182,55 @@
       <button onclick="alert('¡Vamos el Club!')">¡Vamos!</button>
     </section>
 
+    <section id="socio" class="section socios">
+      <div class="socio-container">
+        <!-- Imagen izquierda -->
+        <div class="socio-img">
+          <img src="statics-front/asociate_1.png" alt="Socio Izquierda">
+        </div>
+
+        <!-- Contenido central -->
+        <div class="socio-content">
+          <h2>Hacete Socio</h2>
+          <p>El club te necesita</p>
+          <button id="asociate-btn">Asociate</button>
+
+          <div id="form-container" class="hidden">
+            <h3>Formulario de Asociación</h3>
+            <form id="asociate-form">
+              <input type="hidden" name="self" value="true">
+              <input type="text" name="id_user" placeholder="ID de Usuario" required>
+              <input type="file" name="photo" accept="image/*">
+              <input type="text" name="name" placeholder="Nombre" required>
+              <input type="text" name="surname" placeholder="Apellido" required>
+              <input type="text" name="DNI" placeholder="DNI" required>
+              <input type="date" name="date_of_birth" placeholder="Fecha de Nacimiento" required>
+              <input type="tel" name="phone" placeholder="Teléfono" required>
+              <input type="text" name="city" placeholder="Ciudad" required>
+              <input type="text" name="post_code" placeholder="Código Postal" required>
+              <input type="text" name="adress" placeholder="Dirección" required>
+
+              <select id="member_type" name="type_member" required>
+                <option value="">Tipo de Socio</option>
+                <option value="asd">de la bd</option>
+                <option value="asd1">de la bd</option>
+                <option value="asd2">de la bd</option>
+              </select>
+
+              <input type="number" name="debt" placeholder="Deuda ($)" min="0" step="0.01">
+
+              <button type="submit" class="enviar-btn">Enviar</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Imagen derecha -->
+        <div class="socio-img">
+          <img src="statics-front/asociate_2.png" alt="Socio Derecha">
+        </div>
+      </div>
+    </section>
+
     <section id="instalaciones" class="section">
       <h2>Conoce nuestro predio</h2>
       <div class="carousel">
@@ -213,57 +262,6 @@
         <button class="arrow right">&#10095;</button>
       </div>
     </section>
-    <section id="socio" class="section socios">
-      <div class="socio-container">
-        <!-- Imagen izquierda -->
-        <div class="socio-img">
-          <img src="statics-front/asociate_1.png" alt="Socio Izquierda">
-        </div>
-
-        <!-- Contenido central -->
-        <div class="socio-content">
-          <h2>Hacete Socio</h2>
-          <p>El club te necesita</p>
-          <button id="asociate-btn">Asociate</button>
-
-          <div id="form-container" class="hidden">
-            <h3>Formulario de Asociación</h3>
-            <form id="asociate-form">
-              <input type="hidden" name="self" value="true">
-              <input type="text" name="id_user" placeholder="ID de Usuario" required>
-              <input type="file" name="photo" accept="image/*">
-              <input type="text" name="name" placeholder="Nombre" required>
-              <input type="text" name="surname" placeholder="Apellido" required>
-              <input type="text" name="DNI" placeholder="DNI" required>
-              <input type="date" name="date_of_birth" placeholder="Fecha de Nacimiento" required>
-              <input type="tel" name="phone" placeholder="Teléfono" required>
-              <input type="text" name="city" placeholder="Ciudad" required>
-              <input type="text" name="post_code" placeholder="Código Postal" required>
-              <input type="text" name="adress" placeholder="Dirección" required>
-              <input type="date" name="date_of_up" placeholder="Fecha de Alta" required>
-
-              <select id="member_type" name="type_member" required>
-                <option value="">Tipo de Socio</option>
-                <option value="asd">de la bd</option>
-                <option value="asd1">de la bd</option>
-                <option value="asd2">de la bd</option>
-              </select>
-
-              <input type="date" name="last_pay" placeholder="Último Pago" required>
-              <input type="number" name="debt" placeholder="Deuda ($)" min="0" step="0.01">
-
-              <button type="submit" class="enviar-btn">Enviar</button>
-            </form>
-          </div>
-        </div>
-
-        <!-- Imagen derecha -->
-        <div class="socio-img">
-          <img src="statics-front/asociate_2.png" alt="Socio Derecha">
-        </div>
-      </div>
-    </section>
-
 
     <section id="gente" class="section galeria">
       <h2>Tenemos aguante</h2>
