@@ -500,6 +500,7 @@ $('#tablaSocios tbody').on('click', '.btn-editar-socio', function () {
   console.log("Fila seleccionada para editar:", fila);
   member_form.querySelector(".date_of_up").style.display = "none";
   member_form.querySelector(".id_user").style.display = "none";
+  member_form.querySelector(".last_pay").style.display = "block";
 
   member_form.querySelector(".id").value = fila.id;
   member_form.querySelector(".id_user").value = fila.id_user;
