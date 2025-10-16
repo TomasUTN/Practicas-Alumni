@@ -11,5 +11,9 @@ class User_scheme(BaseModel):
     email : EmailStr
     rol: str
 
+class User_log(BaseModel):
+    email: EmailStr
+    password:str
+
 class Config:
     orm_mode = True  # Muy importante para que Swagger convierta SQLAlchemy → Pydantic
