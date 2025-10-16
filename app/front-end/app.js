@@ -104,6 +104,45 @@ register_form.addEventListener("submit", async (e) => {
 });
 
 
+// conexion al login con el front
+const login_form = document.getElementById("login-form")
+
+login_form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const data = {
+    email: login_form.querySelector('input[type="email"]').value,
+    password: login_form.querySelector('input[type="password"]').value
+  };
+  
+    // estas lineas son para ver desde la consola en el navegador los datos que se envian
+  for(let key in data){
+    console.log(`${key}: ${data[key]}`)
+  }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/login/`, {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+
+      });
+
+      if (!response.ok) throw new Error("Error en el inicio de sesion");
+      
+      const result = await response.json();
+      alert(`Logueo exitoso:  usuario: ${result.email}  rol ${result.rol}`);
+
+      login_form.reset();
+      formContainer.classList.add("hidden");
+    } catch (error) {
+      alert("No se pudo loguear: " + error.message);
+    }
+});
+
+
 const menuToggle = document.getElementById('menu-toggle');
 const navLinks = document.getElementById('nav-links');
 menuToggle.addEventListener('click', () => {

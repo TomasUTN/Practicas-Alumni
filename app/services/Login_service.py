@@ -34,6 +34,7 @@ class Login_services:
         return {
             "message": "Login exitoso",
             "token": token,
+            "email": user.email,
             "id": user.id,
             "rol": user.rol
         }
