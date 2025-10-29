@@ -1,12 +1,12 @@
-from fastapi import HTTPException, status
+import uuid
+from datetime import datetime, timedelta
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from models.User_table import User_db
 from schemes.User_class import User_log
-import uuid
 
-# Diccionario en memoria para tener la sesion activas
+# Diccionario global de sesiones
 sesiones = {}
-
 
 class Login_services:
     def __init__(self, db: Session):
@@ -21,14 +21,15 @@ class Login_services:
         if user.password != data.password:
             raise HTTPException(status_code=401, detail="Contraseña incorrecta")
 
-        # Generar un token aleatorio
+        # Generar token aleatorio
         token = str(uuid.uuid4())
 
-        # Guardar sesión en memoria
+        # Guardar sesión con hora de expiración (30 minutos)
         sesiones[token] = {
             "id": user.id,
             "rol": user.rol,
-            "email": user.email
+            "email": user.email,
+            "expira": datetime.now() + timedelta(minutes=30)
         }
 
         return {
@@ -38,3 +39,28 @@ class Login_services:
             "id": user.id,
             "rol": user.rol
         }
+
+    def verificar_sesion(self, token: str):
+        """
+        Verifica si la sesión es válida (existe y no expiró)
+        """
+        sesion = sesiones.get(token)
+        if not sesion:
+            raise HTTPException(status_code=401, detail="Token inválido o sesión cerrada")
+
+        if datetime.now() > sesion["expira"]:
+            # Si expiró, se elimina automáticamente
+            del sesiones[token]
+            raise HTTPException(status_code=401, detail="Sesión expirada")
+
+        return sesion
+
+    def login_delete(self, token: str):
+        """
+        Cierra la sesión (logout): elimina el token de la memoria
+        """
+        if token not in sesiones:
+            raise HTTPException(status_code=401, detail="Token inválido o sesión inexistente")
+
+        del sesiones[token]
+        return {"message": "Sesión cerrada correctamente"}
