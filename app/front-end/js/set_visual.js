@@ -16,12 +16,7 @@ const authBtn = document.getElementById('auth-btn');
 const authModal = document.getElementById('auth-modal');
 const closeModal = document.getElementById('close-modal');
 
-authBtn.addEventListener('click', () => {
-  authModal.classList.remove('hidden');
-});
-closeModal.addEventListener('click', () => {
-  authModal.classList.add('hidden');
-});
+
 window.addEventListener('click', (e) => {
   if (e.target === authModal) {
     authModal.classList.add('hidden');

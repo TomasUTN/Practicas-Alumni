@@ -12,9 +12,6 @@ export function initLoginFunctions() {
     const loginTab = document.getElementById("login-tab");
     const registerTab = document.getElementById("register-tab");
 
-    authBtn.addEventListener("click", () => {
-    modal.classList.remove("hidden");
-    });
 
     closeModal.addEventListener("click", () => {
     modal.classList.add("hidden");
@@ -76,49 +73,52 @@ export function initLoginFunctions() {
     }
     });
 
-    //
-    // LOGOUT
-    // 
-    authBtn.addEventListener("click", async () => {
-    const token = localStorage.getItem("token");
-
-    // Si no hay token, mostrar modal de login
-    if (!token) {
-        modal.classList.remove("hidden");
-        return;
-    }
-
-    // Si hay token, es logout
-    if (confirm("¿Deseas cerrar sesión?")) {
-        try {
-        const response = await fetch(API_BASE_URL + "/login/logout", {
-            method: "POST",
-            headers: { Authorization: "Bearer " + token },
-        });
-
-        if (response.ok) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("email");
-            localStorage.removeItem("rol");
-            alert("Sesión cerrada correctamente 👋");
-            actualizarBotonAuth();
-        } else {
-            alert("Error al cerrar sesión");
-        }
-        } catch (err) {
-        console.error("Error en logout:", err);
-        }
-    }
-    });
 
     function actualizarBotonAuth() {
     const token = localStorage.getItem("token");
-    if (token) {
-        authBtn.textContent = "Cerrar sesión";
+    const email = localStorage.getItem("email");
+    const logoutMenu = document.getElementById("logout-menu");
+    const logoutBtn = document.getElementById("logout-btn");
+
+    if (token && email) {   
+        // Mostrar el email como texto principal
+        authBtn.textContent = email;
+
+        // Mostrar u ocultar el menú al hacer clic en el email
+        authBtn.onclick = () => {
+        logoutMenu.classList.toggle("hidden");
+        };
+
+        // Acción al presionar el botón de "Cerrar sesión"
+        logoutBtn.onclick = async () => {
+        try {
+            const response = await fetch(API_BASE_URL + "/login/logout", {
+            method: "POST",
+            headers: { Authorization: "Bearer " + token },
+            });
+
+            if (response.ok) {
+            localStorage.clear();
+            logoutMenu.classList.add("hidden");
+            alert("Sesión cerrada correctamente 👋");
+            actualizarBotonAuth();
+            } else {
+            alert("Error al cerrar sesión");
+            }
+        } catch (err) {
+            console.error("Error en logout:", err);
+        }
+        };
     } else {
+        // Si el usuario no está logueado
         authBtn.textContent = "Registrarse / Iniciar Sesión";
+        authBtn.onclick = () => {
+        modal.classList.remove("hidden");
+        };
+        logoutMenu.classList.add("hidden");
     }
     }
+
 
     // Llamar al cargar la página
     actualizarBotonAuth();
