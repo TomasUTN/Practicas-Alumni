@@ -1,8 +1,10 @@
 import { API_BASE_URL } from "./config.js";
+import { inicializarVistaAdmin } from './set_visual.js';
+
 
 export function initLoginFunctions() {
   console.log("Login module initialized with API:", API_BASE_URL);
-
+    
     //capturas necesarias del DOM
     const authBtn = document.getElementById("auth-btn");
     const modal = document.getElementById("auth-modal");
@@ -11,7 +13,7 @@ export function initLoginFunctions() {
     const registerForm = document.getElementById("register-form");
     const loginTab = document.getElementById("login-tab");
     const registerTab = document.getElementById("register-tab");
-
+    const adminItem = document.createElement("li");
 
     closeModal.addEventListener("click", () => {
     modal.classList.add("hidden");
@@ -59,6 +61,18 @@ export function initLoginFunctions() {
         localStorage.setItem("email", data.email);
         localStorage.setItem("rol", data.rol);
 
+        if (data.rol === "admin") {
+            const navLinks = document.getElementById("nav-links");
+            const adminLink = document.createElement("a");
+            adminLink.id = "admin_button";
+            adminLink.href = "#";
+            adminLink.textContent = "ADMINISTRADOR";
+            adminItem.appendChild(adminLink);
+            navLinks.appendChild(adminItem);
+            inicializarVistaAdmin();
+        };
+
+
         alert("Login exitoso ✅");
         modal.classList.add("hidden");
         console.log("id" , data.id,
@@ -99,6 +113,11 @@ export function initLoginFunctions() {
 
             if (response.ok) {
             localStorage.clear();
+            window.location.hash = 'inicio';
+            if (adminItem){
+                adminItem.remove();
+            }
+
             logoutMenu.classList.add("hidden");
             alert("Sesión cerrada correctamente 👋");
             actualizarBotonAuth();

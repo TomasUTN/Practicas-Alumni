@@ -51,8 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const submenu = adminLink.nextElementSibling;
     submenu.style.display = submenu.style.display === "block" ? "none" : "block";
   });
+});
 
   // Vista Admins
+export function inicializarVistaAdmin() {
   const adminBtn = document.querySelector('.nav-links li:last-child a'); // ADMINISTRADOR
   const adminContainer = document.querySelector(".admin-container");
   const publicView = document.getElementById("publicView");
@@ -104,6 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.style.backgroundPosition = "center";
     });
   }
+  
 
   // Volver a vista pública al presionar cualquier otro link del navbar
   const navLinks = document.querySelectorAll(".nav-links li a");
@@ -121,9 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.style.backgroundImage = "";
       });
     }
-  });
-});
-
+  });}
 
 // Función para mostrar/ocultar secciones
 function mostrarSeccion(id) {
