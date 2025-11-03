@@ -13,7 +13,8 @@ export function initLoginFunctions() {
     const registerForm = document.getElementById("register-form");
     const loginTab = document.getElementById("login-tab");
     const registerTab = document.getElementById("register-tab");
-    const adminItem = document.createElement("li");
+    const linkInicio = document.querySelector('a[href="#inicio"]');
+
 
     closeModal.addEventListener("click", () => {
     modal.classList.add("hidden");
@@ -63,13 +64,21 @@ export function initLoginFunctions() {
 
         if (data.rol === "admin") {
             const navLinks = document.getElementById("nav-links");
-            const adminLink = document.createElement("a");
-            adminLink.id = "admin_button";
-            adminLink.href = "#";
-            adminLink.textContent = "ADMINISTRADOR";
-            adminItem.appendChild(adminLink);
-            navLinks.appendChild(adminItem);
+            const lastLi = navLinks.lastElementChild;
+
+            if (!lastLi || lastLi.lastElementChild?.id !== "admin_button") {
+                const adminItem = document.createElement("li");
+                const adminLink = document.createElement("a");
+
+                adminLink.id = "admin_button";
+                adminLink.href = "#";
+                adminLink.textContent = "ADMINISTRADOR";
+
+                adminItem.appendChild(adminLink);
+                navLinks.appendChild(adminItem);
+
             inicializarVistaAdmin();
+            }
         };
 
 
@@ -114,9 +123,12 @@ export function initLoginFunctions() {
             if (response.ok) {
             localStorage.clear();
             window.location.hash = 'inicio';
-            if (adminItem){
-                adminItem.remove();
+            const adminButton = document.getElementById("admin_button");
+            if (adminButton) {
+            adminButton.parentElement.remove(); // borro el <li> entero
             }
+            linkInicio.click();
+
 
             logoutMenu.classList.add("hidden");
             alert("Sesión cerrada correctamente 👋");
