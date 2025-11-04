@@ -62,39 +62,39 @@ export function initLoginFunctions() {
         localStorage.setItem("email", data.email);
         localStorage.setItem("rol", data.rol);
 
-        if (data.rol === "admin") {
-            const navLinks = document.getElementById("nav-links");
-            const lastLi = navLinks.lastElementChild;
-
-            if (!lastLi || lastLi.lastElementChild?.id !== "admin_button") {
-                const adminItem = document.createElement("li");
-                const adminLink = document.createElement("a");
-
-                adminLink.id = "admin_button";
-                adminLink.href = "#";
-                adminLink.textContent = "ADMINISTRADOR";
-
-                adminItem.appendChild(adminLink);
-                navLinks.appendChild(adminItem);
-
-            inicializarVistaAdmin();
-            }
-        };
-
+        if (data.rol === "admin") agregarBotonAdmin();
 
         alert("Login exitoso ✅");
         modal.classList.add("hidden");
-        console.log("id" , data.id,
-            "email", data.email,
-            "rol", data.rol,
-        )
 
-        // Cambiar texto del botón
+        console.log("id", data.id,
+                "email", data.email,
+                "rol", data.rol);
+
         actualizarBotonAuth();
-    } catch (err) {
+        } catch (err) {
         console.error("Error al iniciar sesión:", err);
-    }
+        }
     });
+
+    function agregarBotonAdmin() {
+        const navLinks = document.getElementById("nav-links");
+        const lastLi = navLinks.lastElementChild;
+
+        if (!lastLi || lastLi.lastElementChild?.id !== "admin_button") {
+        const adminItem = document.createElement("li");
+        const adminLink = document.createElement("a");
+
+        adminLink.id = "admin_button";
+        adminLink.href = "#";
+        adminLink.textContent = "ADMINISTRADOR";
+
+        adminItem.appendChild(adminLink);
+        navLinks.appendChild(adminItem);
+
+        inicializarVistaAdmin();
+        }
+    }
 
 
     function actualizarBotonAuth() {
@@ -153,4 +153,10 @@ export function initLoginFunctions() {
 
     // Llamar al cargar la página
     actualizarBotonAuth();
+
+    /// aca lo que logro es que si recargo la pagina y hay un admin logueado no desaparezca el boton
+    const rol = localStorage.getItem("rol");
+    if (rol === "admin") {
+        agregarBotonAdmin();
+  }
 }
