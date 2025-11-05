@@ -29,7 +29,6 @@ class Login_services:
             "id": user.id,
             "rol": user.rol,
             "email": user.email,
-            "expira": datetime.now() + timedelta(minutes=30)
         }
 
         return {
@@ -47,12 +46,6 @@ class Login_services:
         sesion = sesiones.get(token)
         if not sesion:
             raise HTTPException(status_code=401, detail="Token inválido o sesión cerrada")
-
-        if datetime.now() > sesion["expira"]:
-            # Si expiró, se elimina automáticamente
-            del sesiones[token]
-            raise HTTPException(status_code=401, detail="Sesión expirada")
-
         return sesion
 
     def login_delete(self, token: str):
