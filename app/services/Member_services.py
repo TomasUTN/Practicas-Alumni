@@ -23,6 +23,15 @@ class Member_services:
         member_type = self.db.query(Member_type_db).filter(Member_type_db.id == type_member).first()
         if not member_type:
             raise HTTPException(status_code=404, detail="Tipo de miembro no encontrado")
+        
+        control_member_dni = self.db.query(Member_db).filter(Member_db.DNI == DNI).first()
+        if control_member_dni:
+            raise HTTPException(status_code=400, detail="Ya existe un miembro con ese DNI.")
+
+
+        control_member_user = self.db.query(Member_db).filter(Member_db.id_user == id_user).first()
+        if control_member_user:
+            raise HTTPException(status_code=400, detail="Este usuario ya tiene un miembro asociado.")
 
         # Convertir fechas
         today = date.today()
