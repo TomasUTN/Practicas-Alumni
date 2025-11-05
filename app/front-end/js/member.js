@@ -30,9 +30,15 @@ export function initMemberFunctions() {
     asociateForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-
+    const userId = localStorage.getItem("id");
+    if (!userId) {
+        alert("Debes iniciar sesión antes de gestionar asociaciones.");
+        return; // para cortar la ejecucion
+}
 
     const formData = new FormData(asociateForm);
+
+    formData.append("id_user", userId);
 
     formData.set("date_of_birth", formatDateToDDMMYYYY(formData.get("date_of_birth")));
     formData.set("date_of_up", formatDateToDDMMYYYY(formData.get("date_of_up")));
@@ -56,7 +62,7 @@ export function initMemberFunctions() {
 
         // ver aca porque se registra correctamente pero  luego vuelve a entrar en el catch de abajo diciendo que from container no esta definido
         asociateForm.reset();
-        formContainer.classList.add("hidden");
+        if(formContainer) formContainer.classList.add("hidden");
         } catch (error) {
         alert("No se pudo registrar: " + error.message);
         }
