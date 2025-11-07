@@ -8,6 +8,7 @@ from sqlalchemy.orm import joinedload
 import os
 import uuid
 from datetime import datetime, date
+from schemes.Errors import Error
 
 class Member_services:
   
@@ -18,20 +19,37 @@ class Member_services:
         # Validar que el usuario existe
         user = self.db.query(User_db).filter(User_db.id == id_user).first()
         if not user:
-            raise HTTPException(status_code=404, detail="Usuario no encontrado")
+            return {
+            "ok": False,
+            "error": Error(number=404, detail="Usuario no encontrado")
+        }
+            #raise HTTPException(status_code=404, detail="Usuario no encontrado")
+            
         # Validar que el tipo de miembro existe
         member_type = self.db.query(Member_type_db).filter(Member_type_db.id == type_member).first()
         if not member_type:
-            raise HTTPException(status_code=404, detail="Tipo de miembro no encontrado")
+            return {
+            "ok": False,
+            "error": Error(number=404, detail="Tipo de miembro no encontrado")
+        }
+            #raise HTTPException(status_code=404, detail="Tipo de miembro no encontrado")
         
         control_member_dni = self.db.query(Member_db).filter(Member_db.DNI == DNI).first()
         if control_member_dni:
-            raise HTTPException(status_code=400, detail="Ya existe un miembro con ese DNI.")
+            return {
+            "ok": False,
+            "error": Error(number=400, detail="Ya existe un miembro con ese DNI.")
+        }
+            #raise HTTPException(status_code=400, detail="Ya existe un miembro con ese DNI.")
 
 
         control_member_user = self.db.query(Member_db).filter(Member_db.id_user == id_user).first()
         if control_member_user:
-            raise HTTPException(status_code=400, detail="Este usuario ya tiene un miembro asociado.")
+            return {
+            "ok": False,
+            "error": Error(number=400, detail="Este usuario ya tiene un miembro asociado.")
+        }
+            #raise HTTPException(status_code=400, detail="Este usuario ya tiene un miembro asociado.")
 
         # Convertir fechas
         today = date.today()
@@ -82,7 +100,10 @@ class Member_services:
         self.db.add(new_member)
         self.db.commit()
         self.db.refresh(new_member)
-        return new_member
+        return {
+        "ok": True,
+        "data": new_member
+    }
     
     async def update_member(self, id, name, surname, DNI, date_of_birth, phone, city, post_code, adress, date_of_up, type_member, last_pay, debt, photo):
         from fastapi import UploadFile

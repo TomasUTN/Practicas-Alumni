@@ -12,7 +12,7 @@ def get_all_member(db: Session = Depends(get_db)):
 
 
 #### este endpoint lo hice asi para que el usuario cargue un archivo y no un str con la ruta
-@router_member.post("/create", response_model=Member_class)
+@router_member.post("/create")
 async def create_member(
     id_user: int = Form(...),
     name: str = Form(...),
@@ -28,7 +28,8 @@ async def create_member(
     photo: UploadFile = File(...),
     db: Session = Depends(get_db)
 ):
-    return await Member_services(db).create_member(id_user=id_user,photo=photo,name=name,surname=surname,DNI=DNI,date_of_birth=date_of_birth,phone=phone,city=city,post_code=post_code,adress=adress,type_member=type_member,debt=debt)
+    result =  await Member_services(db).create_member(id_user=id_user,photo=photo,name=name,surname=surname,DNI=DNI,date_of_birth=date_of_birth,phone=phone,city=city,post_code=post_code,adress=adress,type_member=type_member,debt=debt)
+    return result
 
 @router_member.put("/update/{id}", response_model=Member_class)
 async def update_member(

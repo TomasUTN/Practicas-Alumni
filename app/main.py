@@ -6,6 +6,7 @@ from routers.Login_router import router_login
 from fastapi.middleware.cors import CORSMiddleware
 
 
+
 app = FastAPI()
 app.include_router(router_user)
 app.include_router(router_member_type)

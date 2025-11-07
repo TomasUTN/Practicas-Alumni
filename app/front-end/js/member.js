@@ -55,10 +55,19 @@ export function initMemberFunctions() {
             body: formData
         });
 
-        if (!response.ok) throw new Error("Error en el registro");
+        //if (!response.ok) throw new Error("Error en el registro");
+        //const data = await response.json();
+        //alert(`Registro ok:  ${data.name} ${data.surname}`);
 
-        const data = await response.json();
-        alert(`Registro ok:  ${data.name} ${data.surname}`);
+    const result = await response.json();
+
+    if (!result.ok) {
+        alert(result.error.detail);
+        return;
+    }
+
+    alert(`Registro ok: ${result.data.name} ${result.data.surname}`);
+
 
         // ver aca porque se registra correctamente pero  luego vuelve a entrar en el catch de abajo diciendo que from container no esta definido
         asociateForm.reset();
@@ -144,6 +153,7 @@ export function initMemberFunctions() {
     document.querySelector(".btn-agregar-member").addEventListener("click", () => {
     member_form.reset();
     member_form.querySelector(".id").value = "";
+    member_form.querySelector(".id_user").style.display = "block";
     form_container_member.style.display = "block";
     member_form.querySelector(".date_of_up").style.display = "none";
     member_form.querySelector(".last_pay").style.display = "none";
